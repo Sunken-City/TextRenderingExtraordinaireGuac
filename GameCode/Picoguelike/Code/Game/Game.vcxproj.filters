@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Data">
+      <UniqueIdentifier>{64146672-97e8-435e-a435-6b5a46c7cccc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="Code\Generators">
+      <UniqueIdentifier>{d0046050-868a-4d58-abab-8a1d183ef6a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Map">
+      <UniqueIdentifier>{b6c249fd-4aa1-4d5b-a38f-719bb2dd6182}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Environments">
+      <UniqueIdentifier>{c70728ca-8ef6-4208-ad89-637fe92f99e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Environments">
+      <UniqueIdentifier>{0a65df03-5a8a-4a5d-a149-27c323512467}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Maps">
+      <UniqueIdentifier>{4a56e9cf-a4b5-4a9b-9f9a-796448ced9bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Entities">
+      <UniqueIdentifier>{2993a79b-b795-449a-ba97-22e5826191f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\NPCs">
+      <UniqueIdentifier>{64dbe481-a38c-4053-93bb-143090f7d15e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main_Win32.cpp">
+      <Filter>Code</Filter>
+    </ClCompile>
+    <ClCompile Include="TheGame.cpp">
+      <Filter>Code</Filter>
+    </ClCompile>
+    <ClCompile Include="TheApp.cpp">
+      <Filter>Code</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>Code</Filter>
+    </ClCompile>
+    <ClCompile Include="Generators\Generator.cpp">
+      <Filter>Code\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="Generators\CellularAutomataGenerator.cpp">
+      <Filter>Code\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="Map\Cell.cpp">
+      <Filter>Code\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Map\Map.cpp">
+      <Filter>Code\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Generators\DungeonGenerator.cpp">
+      <Filter>Code\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="Generators\FromDataGenerator.cpp">
+      <Filter>Code\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="Environments\EnvironmentBlueprint.cpp">
+      <Filter>Code\Environments</Filter>
+    </ClCompile>
+    <ClCompile Include="Generators\HiveGenerator.cpp">
+      <Filter>Code\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Player.cpp">
+      <Filter>Code\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Entity.cpp">
+      <Filter>Code\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\Agent.cpp">
+      <Filter>Code\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Map\AStar.cpp">
+      <Filter>Code\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\NPC.cpp">
+      <Filter>Code\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\NPCFactory.cpp">
+      <Filter>Code\Entities</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TheGame.hpp">
+      <Filter>Code</Filter>
+    </ClInclude>
+    <ClInclude Include="TheApp.hpp">
+      <Filter>Code</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.hpp">
+      <Filter>Code</Filter>
+    </ClInclude>
+    <ClInclude Include="Generators\Generator.hpp">
+      <Filter>Code\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="Generators\CellularAutomataGenerator.hpp">
+      <Filter>Code\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="Map\Cell.hpp">
+      <Filter>Code\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Map\Map.hpp">
+      <Filter>Code\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Generators\DungeonGenerator.hpp">
+      <Filter>Code\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="Generators\FromDataGenerator.hpp">
+      <Filter>Code\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="Environments\EnvironmentBlueprint.hpp">
+      <Filter>Code\Environments</Filter>
+    </ClInclude>
+    <ClInclude Include="Generators\HiveGenerator.hpp">
+      <Filter>Code\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Player.hpp">
+      <Filter>Code\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Entity.hpp">
+      <Filter>Code\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Agent.hpp">
+      <Filter>Code\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Map\AStar.hpp">
+      <Filter>Code\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\NPC.hpp">
+      <Filter>Code\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\NPCFactory.hpp">
+      <Filter>Code\Entities</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\Run_Win32\Data\XML\Environments\FromDataPico.Environment.xml">
+      <Filter>Data\Environments</Filter>
+    </Xml>
+    <Xml Include="..\..\Run_Win32\Data\XML\Environments\Caves.Environment.xml">
+      <Filter>Data\Environments</Filter>
+    </Xml>
+    <Xml Include="..\..\Run_Win32\Data\XML\Environments\Dungeon.Environment.xml">
+      <Filter>Data\Environments</Filter>
+    </Xml>
+    <Xml Include="..\..\Run_Win32\Data\XML\Maps\Pico.Map.xml">
+      <Filter>Data\Maps</Filter>
+    </Xml>
+    <Xml Include="..\..\Run_Win32\Data\XML\Environments\FromDataCaves.Environment.xml">
+      <Filter>Data\Environments</Filter>
+    </Xml>
+    <Xml Include="..\..\Run_Win32\Data\XML\Maps\Caves.Map.xml">
+      <Filter>Data\Maps</Filter>
+    </Xml>
+    <Xml Include="..\..\Run_Win32\Data\XML\Environments\Hive.Environment.xml">
+      <Filter>Data\Environments</Filter>
+    </Xml>
+    <Xml Include="..\..\Run_Win32\Data\XML\NPCs\Slimes.NPC.xml">
+      <Filter>Data\NPCs</Filter>
+    </Xml>
+  </ItemGroup>
+</Project>

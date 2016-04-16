@@ -1,0 +1,14 @@
+#pragma once
+#include "Game/Entities/Agent.hpp"
+
+class NPC : public Agent 
+{
+public:
+	//CONSTRUCTORS//////////////////////////////////////////////////////////////////////////
+	NPC();
+	virtual ~NPC();
+
+	//FUNCTIONS//////////////////////////////////////////////////////////////////////////
+	virtual void Update(float deltaSeconds);
+	virtual void Render() const;
+};

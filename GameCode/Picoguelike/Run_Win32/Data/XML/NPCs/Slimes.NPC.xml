@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NPCBlueprints>
+  
+  <NPCBlueprint name="Green Slime"  maxHealth="10" damage="2" glyph="s" color="0x00FF00FF">
+    <Behaviors>
+      <Wander chanceToRest=".5" chanceToGoStraight=".3"/>
+    </Behaviors>
+  </NPCBlueprint>
+
+  <NPCBlueprint name="Blue Slime"  maxHealth="10" damage="2" glyph="s" color="0x0000FFFF">
+    <Behaviors>
+      <Wander chanceToRest=".5" chanceToGoStraight=".3"/>
+    </Behaviors>
+  </NPCBlueprint>
+
+</NPCBlueprints>

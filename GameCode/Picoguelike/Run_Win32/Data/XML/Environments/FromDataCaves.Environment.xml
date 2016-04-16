@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EnvironmentBlueprint name="" size="0,0">
+  <GenerationProcessData generator="FromData" steps="1" filePath="Data\XML\Maps\Caves.Map.xml"/>
+  <GenerationProcessData generator="CellularAutomata" steps="5"/>
+  <GenerationProcessData generator="Hive" steps="10"/>
+</EnvironmentBlueprint>
