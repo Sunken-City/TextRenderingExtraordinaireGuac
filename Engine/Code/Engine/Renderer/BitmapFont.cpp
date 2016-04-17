@@ -132,7 +132,8 @@ float BitmapFont::CalcTextWidth(const std::string& textToWrite, float scale) con
 			const Vector2 kerning = GetKerning(*previousGlyph, *glyph);
 			totalWidth += (kerning.x * scale);
 		}
-		totalWidth += (glyph->xOffset * scale) + glyph->width;
+		totalWidth += glyph->xAdvance;
+		previousGlyph = glyph;
 	}
 	return totalWidth;
 }

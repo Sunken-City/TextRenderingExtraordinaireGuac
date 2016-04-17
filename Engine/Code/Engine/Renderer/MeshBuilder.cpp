@@ -599,7 +599,7 @@ void MeshBuilder::AddStringEffectFragment(const std::string& asciiText, const Bi
 		font = Renderer::instance->m_defaultFont;
 	}
 	int stringLength = asciiText.size();
-	Vector3 cursorPosition = bottomLeft + (up * height) - ((float)lineNum * font->m_maxHeight * scale * up) + (lineWidth * .5f * right * scale) + (totalWidthUpToNow * scale * right);
+	Vector3 cursorPosition = bottomLeft + (up * height) - ((float)lineNum * font->m_maxHeight * scale * up) + ((width - lineWidth) * .5f * right * scale) + (totalWidthUpToNow * scale * right);
 	const Glyph* previousGlyph = nullptr;
 	float totalWidthSoFar = totalWidthUpToNow;
 	float localWidthSoFar = 0;

@@ -27,6 +27,10 @@ void TextBox::EvaluateLine(std::deque<StringEffectFragment>& currLine, std::dequ
 {
 	std::string fullLineString = "";
 	std::deque<StringEffectFragment> workingLine;
+	if (currLine.size() == 1)
+	{
+		return;
+	}
 	while(!currLine.empty())
 	{
 		workingLine.push_back(currLine.front());
@@ -65,6 +69,10 @@ void TextBox::EvaluateLine(std::deque<StringEffectFragment>& currLine, std::dequ
 				std::string processedText = "";
 				for (;;)
 				{
+					if (unprocessedText.empty())
+					{
+						break;
+					}
 					char testChar = unprocessedText[0];
 					processedText.push_back(testChar);
 					unprocessedText = unprocessedText.substr(1);
@@ -152,6 +160,7 @@ void TextBox::ConstructMeshes()
 		totalStringWidth += m_baseFont->CalcTextWidth(frag.m_value, m_scale);
 		currLineWidth += m_baseFont->CalcTextWidth(frag.m_value, m_scale);
 	}
+	lineWidths.push_back(currLineWidth);
 	float totalWidthUpToNow = 0.f;
 	int lineNum = 0;
 	for (StringEffectFragment frag : m_fragments)
@@ -166,12 +175,14 @@ void TextBox::ConstructMeshes()
 		SetEffectProperties(mat, frag);
 		mat->SetVec3Uniform("gUpVector", m_upVector);
 		mat->SetVec3Uniform("gRightVector", m_rightVector);
+		mat->SetDiffuseTexture(m_baseFont->GetTexture());
 		MeshRenderer* meshRenderer = new MeshRenderer(mesh, mat);
 		m_renderers.push_back(meshRenderer);
 		totalWidthUpToNow += m_baseFont->CalcTextWidth(frag.m_value, m_scale);
 		if (frag.m_value == "\n")
 		{
 			lineNum++;
+			totalWidthUpToNow = 0.f;
 		}
 	}
 }
