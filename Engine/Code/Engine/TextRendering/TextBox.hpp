@@ -16,7 +16,7 @@ public:
 private:
 	void EvaluateLine(std::deque<StringEffectFragment>& currLine, std::deque<StringEffectFragment>& fragmentQueue);
 
-	void ConstructMesh();
+	void ConstructMeshes();
 private:
 	std::vector<StringEffectFragment> m_fragments;
 	Vector3 m_bottomLeft;

@@ -120,7 +120,7 @@ void TextBox::EvaluateLine(std::deque<StringEffectFragment>& currLine, std::dequ
 
 
 //-----------------------------------------------------------------------------------------------
-void TextBox::ConstructMesh()
+void TextBox::ConstructMeshes()
 {
 	throw std::logic_error("The method or operation is not implemented.");
 }
@@ -174,5 +174,5 @@ void TextBox::SetFromXMLNode(const struct XMLNode& node)
 		}
 	}
 
-	ConstructMesh();
+	ConstructMeshes();
 }
