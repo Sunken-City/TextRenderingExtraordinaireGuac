@@ -137,7 +137,7 @@ void TextBox::ConstructMeshes()
 	for (StringEffectFragment frag : m_fragments)
 	{
 		MeshBuilder mb;
-		mb.AddStringEffectFragment(frag.m_value, m_baseFont, m_scale, totalStringWidth, m_bottomLeft, m_upVector, m_rightVector);
+		mb.AddStringEffectFragment(frag.m_value, m_baseFont, m_scale, totalStringWidth, m_bottomLeft, m_upVector, m_rightVector, m_width, m_height);
 		Mesh* mesh = new Mesh();
 		mb.CopyToMesh(mesh, &Vertex_TextPCT::Copy, sizeof(Vertex_TextPCT), &Vertex_TextPCT::BindMeshToVAO);
 		Material* mat = new Material(new ShaderProgram("Data/Shaders/funkyFont.vert", "Data/Shaders/funkyFont.frag"),
