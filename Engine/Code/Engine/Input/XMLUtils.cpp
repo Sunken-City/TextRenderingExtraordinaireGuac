@@ -12,7 +12,13 @@ XMLNode XMLUtils::OpenXMLDocument(const std::string& path)
 
 std::string XMLUtils::GetAttribute(const XMLNode& node, const std::string& attributeName)
 {
-	return std::string(node.getAttribute(attributeName.c_str(), nullptr));
+	const char* attrVal = node.getAttribute(attributeName.c_str());
+	if (!attrVal)
+	{
+		return "";
+	}
+
+	return std::string(attrVal);
 }
 
 std::vector<XMLNode> XMLUtils::GetChildren(const XMLNode& parent)

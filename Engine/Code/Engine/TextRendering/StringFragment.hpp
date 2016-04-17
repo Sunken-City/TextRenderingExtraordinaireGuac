@@ -9,9 +9,9 @@
 class StringFragment
 {
 public:
-	StringFragment(const std::string& value, const struct XMLNode& effectNode);
-	std::vector<StringFragment> GetStringFragmentsFromXML(const struct XMLNode& node);
-	TextEffect GetTextEffect(const struct XMLNode& node);
+	StringFragment(const std::string& value);
+	static std::vector<StringFragment> GetStringFragmentsFromXML(const struct XMLNode& node);
+	static TextEffect GetTextEffect(const struct XMLNode& node);
 
 public:
 	std::string m_value;

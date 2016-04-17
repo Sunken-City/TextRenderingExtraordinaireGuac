@@ -11,6 +11,7 @@ enum TextEffectType
 	DILATE,
 	POP,
 	COLOR,
+	RAINBOW,
 	NUM_EFFECT_TYPES
 };
 
@@ -24,4 +25,5 @@ struct TextEffect
 	bool pop = false;
 	RGBA color1 = RGBA::WHITE;
 	RGBA color2 = RGBA::WHITE;
+	bool rainbow = false;
 };

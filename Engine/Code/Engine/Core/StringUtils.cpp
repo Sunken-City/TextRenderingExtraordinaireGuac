@@ -153,7 +153,7 @@ RGBA GetColorFromHexString(const std::string& hexString)
 	}
 	try
 	{
-		int rgba = std::stoi(workingString, 0, 16);
+		unsigned int rgba = std::stoi(workingString, 0, 16);
 		rgba <<= 8;
 		rgba += 0xFF;
 		return RGBA(rgba);
