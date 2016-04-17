@@ -21,6 +21,8 @@ struct Vertex_Master
 	RGBA color;
 	Vector2 uv0;
 	Vector2 uv1;
+	Vector2 normalizedGlyphPosition;
+	Vector2 normalizedStringPosition;
 };
 
 //-----------------------------------------------------------------------------------
@@ -40,6 +42,33 @@ struct Vertex_PCT
 	RGBA color;
 	Vector2 texCoords;
 };
+
+//-----------------------------------------------------------------------------------
+struct Vertex_TextPCT
+{
+	typedef unsigned int GLuint;
+
+	Vertex_TextPCT() {};
+	Vertex_TextPCT(const Vector3& position) : pos(position) {};
+	Vertex_TextPCT(const Vector3& position, const RGBA& color) : pos(position), color(color) {};
+	Vertex_TextPCT(const Vector3& position, const RGBA& color, const Vector2& texCoords) : pos(position), color(color), texCoords(texCoords) {};
+	Vertex_TextPCT(const Vector3& position, const RGBA& color, const Vector2& texCoords, const Vector2& normalizedGlyphPosition, const Vector2 normalizedStringPosition) 
+		: pos(position)
+		, color(color)
+		, texCoords(texCoords)
+		, normalizedGlyphPosition(normalizedGlyphPosition)
+		, normalizedStringPosition(normalizedStringPosition) {};
+	static void Copy(const Vertex_Master& source, byte* destination);
+	static void BindMeshToVAO(GLuint vao, GLuint vbo, GLuint ibo, ShaderProgram* program);
+
+	//MEMBER VARIABLES//////////////////////////////////////////////////////////////////////////
+	Vector3 pos;
+	RGBA color;
+	Vector2 texCoords;
+	Vector2 normalizedGlyphPosition;
+	Vector2 normalizedStringPosition;
+};
+
 
 //-----------------------------------------------------------------------------------
 struct Vertex_PCUTB

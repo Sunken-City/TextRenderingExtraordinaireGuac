@@ -36,7 +36,8 @@ void MeshRenderer::Render() const
 {
 	m_material->SetMatrices(m_model, Renderer::instance->m_viewStack.GetTop(), Renderer::instance->m_projStack.GetTop());
 	m_material->BindAvailableTextures();
- 	Renderer::instance->BindMeshToVAOVertexPCUTB(m_vaoID, m_mesh->m_vbo, m_mesh->m_ibo, m_material->m_shaderProgram);
+	m_mesh->BindToVAO(m_vaoID, m_material->m_shaderProgram);
+ 	//Renderer::instance->BindMeshToVAOVertexPCUTB(m_vaoID, m_mesh->m_vbo, m_mesh->m_ibo, m_material->m_shaderProgram);
 	m_mesh->RenderFromIBO(m_vaoID, *m_material);
 	GL_CHECK_ERROR();
 	Renderer::instance->UnbindIbo();

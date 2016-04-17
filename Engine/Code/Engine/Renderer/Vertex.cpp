@@ -56,3 +56,30 @@ void Vertex_PCUTB::BindMeshToVAO(GLuint vao, GLuint vbo, GLuint ibo, ShaderProgr
 	}
 	glBindVertexArray(NULL);
 }
+
+void Vertex_TextPCT::Copy(const Vertex_Master& source, byte* destination)
+{
+	Vertex_TextPCT* textPCT = (Vertex_TextPCT*)(destination);
+	textPCT->pos = source.position;
+	textPCT->color = source.color;
+	textPCT->texCoords = source.uv0;
+	textPCT->normalizedGlyphPosition = source.normalizedGlyphPosition;
+	textPCT->normalizedStringPosition = source.normalizedStringPosition;
+}
+
+void Vertex_TextPCT::BindMeshToVAO(GLuint vao, GLuint vbo, GLuint ibo, ShaderProgram* program)
+{
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	program->ShaderProgramBindProperty("inPosition", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_TextPCT), offsetof(Vertex_TextPCT, pos));
+	program->ShaderProgramBindProperty("inColor", 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex_TextPCT), offsetof(Vertex_TextPCT, color));
+	program->ShaderProgramBindProperty("inUV0", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex_TextPCT), offsetof(Vertex_TextPCT, texCoords));
+	program->ShaderProgramBindProperty("inNormalizedGlyphPosition", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex_TextPCT), offsetof(Vertex_TextPCT, normalizedGlyphPosition));
+	program->ShaderProgramBindProperty("inNormalizedStringPosition", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex_TextPCT), offsetof(Vertex_TextPCT, normalizedStringPosition));
+	glBindBuffer(GL_ARRAY_BUFFER, NULL);
+	if (ibo != NULL)
+	{
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	}
+	glBindVertexArray(NULL);
+}

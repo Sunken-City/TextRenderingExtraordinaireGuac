@@ -48,7 +48,7 @@ MeshBuilder* g_loadedMeshBuilder = nullptr;
 			g_loadedMesh = new Mesh();
 			g_loadedMeshBuilder = MeshBuilder::Merge(import->meshes.data(), import->meshes.size());
 			g_loadedMeshBuilder->AddLinearIndices();
-			g_loadedMeshBuilder->CopyToMesh(g_loadedMesh, &Vertex_PCUTB::Copy);
+			g_loadedMeshBuilder->CopyToMesh(g_loadedMesh, &Vertex_PCUTB::Copy, sizeof(Vertex_PCUTB), TODO);
 		}
 		delete import;
 	}

@@ -11,7 +11,7 @@ Light::Light()
 }
 
 Light::Light(const Vector3& lightPosition, const RGBA& lightColor)
-	: m_meshRenderer(Mesh::CreateIcoSphere(0.3f, lightColor, 2), Renderer::instance->m_defaultMaterial)
+	: m_meshRenderer(new Mesh()/*Mesh::CreateIcoSphere(0.3f, lightColor, 2)*/, Renderer::instance->m_defaultMaterial)
 	, m_lightType(LightType::POINT)
 	, m_lightPosition(lightPosition)
 	, m_lightColor(lightColor.ToVec4())
@@ -28,7 +28,7 @@ Light::Light(const Vector3& lightPosition, const RGBA& lightColor)
 }
 
 Light::Light(const Vector3& lightPosition, const RGBA& lightColor, Material* material)
-	: m_meshRenderer(Mesh::CreateIcoSphere(0.3f, lightColor, 2), material)
+	: m_meshRenderer(new Mesh()/*Mesh::CreateIcoSphere(0.3f, lightColor, 2)*/, material)
 	, m_lightType(LightType::POINT)
 	, m_lightPosition(lightPosition)
 	, m_lightColor(lightColor.ToVec4())

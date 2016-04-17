@@ -123,7 +123,7 @@ void Path::Render() const
 	
 	builder.End();
 	Mesh* mesh = new Mesh();
-	builder.CopyToMesh(mesh, &Vertex_PCUTB::Copy);
+	builder.CopyToMesh(mesh, &Vertex_PCUTB::Copy, sizeof(Vertex_PCUTB), &Vertex_PCUTB::BindMeshToVAO);
 	MeshRenderer* renderer = new MeshRenderer(mesh, Renderer::instance->m_defaultMaterial);
 	renderer->Render();
 	delete mesh;

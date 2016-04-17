@@ -372,7 +372,7 @@ void Renderer::DrawVertexArrayModern(const Vertex_PCT* vertexes, int numVertexes
 	builder.End();
 
 	Mesh* mesh = new Mesh();
-	builder.CopyToMesh(mesh, &Vertex_PCUTB::Copy);
+	builder.CopyToMesh(mesh, &Vertex_PCUTB::Copy, sizeof(Vertex_PCUTB), &Vertex_PCUTB::BindMeshToVAO);
 	mesh->m_drawMode = drawMode;
 	MeshRenderer thingToRender = MeshRenderer(mesh, m_defaultMaterial);
 	m_defaultMaterial->SetMatrices(Matrix4x4::IDENTITY, m_viewStack.GetTop(), m_projStack.GetTop());
@@ -420,7 +420,7 @@ void Renderer::DrawVertexArray(const Vertex_PCT* vertexes, int numVertexes, Draw
 	builder.End();
 
 	Mesh* mesh = new Mesh();
-	builder.CopyToMesh(mesh, &Vertex_PCUTB::Copy);
+	builder.CopyToMesh(mesh, &Vertex_PCUTB::Copy, sizeof(Vertex_PCUTB), &Vertex_PCUTB::BindMeshToVAO);
 	mesh->m_drawMode = drawMode;
 	MeshRenderer thingToRender = MeshRenderer(mesh, m_defaultMaterial);
 	m_defaultMaterial->SetMatrices(Matrix4x4::IDENTITY, m_viewStack.GetTop(), m_projStack.GetTop());
@@ -529,7 +529,7 @@ void Renderer::DrawText2D
 	builder.End();
 
 	Mesh* mesh = new Mesh();
-	builder.CopyToMesh(mesh, &Vertex_PCUTB::Copy);
+	builder.CopyToMesh(mesh, &Vertex_PCUTB::Copy, sizeof(Vertex_PCUTB), &Vertex_PCUTB::BindMeshToVAO);
 	mesh->m_drawMode = DrawMode::TRIANGLES;
 	MeshRenderer thingToRender = MeshRenderer(mesh, font->GetMaterial());
 	m_defaultMaterial->SetMatrices(Matrix4x4::IDENTITY, m_viewStack.GetTop(), m_projStack.GetTop());
@@ -589,7 +589,7 @@ void Renderer::DrawText2D(const Vector2& position, const std::string& asciiText,
 	builder.End();
 
 	Mesh* mesh = new Mesh();
-	builder.CopyToMesh(mesh, &Vertex_PCUTB::Copy);
+	builder.CopyToMesh(mesh, &Vertex_PCUTB::Copy, sizeof(Vertex_PCUTB), &Vertex_PCUTB::BindMeshToVAO);
 	mesh->m_drawMode = DrawMode::TRIANGLES;
 	MeshRenderer thingToRender = MeshRenderer(mesh, font->GetMaterial());
 	m_defaultMaterial->SetMatrices(Matrix4x4::IDENTITY, m_viewStack.GetTop(), m_projStack.GetTop());

@@ -42,7 +42,7 @@ CONSOLE_COMMAND(loadMesh)
 	g_loadedMeshBuilder = new MeshBuilder();
 	g_loadedMeshBuilder->ReadFromFile(filename.c_str());
 	g_loadedMesh = new Mesh();
-	g_loadedMeshBuilder->CopyToMesh(g_loadedMesh, &Vertex_PCUTB::Copy);
+	g_loadedMeshBuilder->CopyToMesh(g_loadedMesh, &Vertex_PCUTB::Copy, TODO, TODO);
 }
 #endif
 
@@ -91,7 +91,7 @@ MeshBuilder* MeshBuilder::Merge(MeshBuilder* meshBuilderArray, unsigned int numb
 }
 
 //-----------------------------------------------------------------------------------
-void MeshBuilder::CopyToMesh(Mesh* mesh, VertexCopyCallback* copyFunction)
+void MeshBuilder::CopyToMesh(Mesh* mesh, VertexCopyCallback* copyFunction, unsigned int sizeofVertex, Mesh::BindMeshToVAOForVertex* bindMeshFunction)
 {
 	// First, we need to allocate a buffer to copy 
 	// our vertices into, that matches what the mesh
@@ -102,24 +102,23 @@ void MeshBuilder::CopyToMesh(Mesh* mesh, VertexCopyCallback* copyFunction)
 		return;
 	}
 
-	unsigned int vertexSize = sizeof(Vertex_PCUTB); //mesh->vdefn->vertexSize;
+	unsigned int vertexSize = sizeofVertex; //mesh->vdefn->vertexSize;
 	unsigned int vertex_buffer_size = vertexCount * vertexSize;
 
 	byte* vertexBuffer = new byte[vertex_buffer_size];
 	byte* currentBufferIndex = vertexBuffer;
 
-	mesh->m_verts.clear();
+//	mesh->m_verts.clear();
 	for (unsigned int vertex_index = 0;	vertex_index < vertexCount;	++vertex_index) 
 	{
 		copyFunction(m_vertices[vertex_index], currentBufferIndex);
-		Vertex_PCUTB* vertexPointer = (Vertex_PCUTB*)currentBufferIndex;
-		mesh->m_verts.push_back(*vertexPointer);
+// 		Vertex_PCUTB* vertexPointer = (Vertex_PCUTB*)currentBufferIndex;
+// 		mesh->m_verts.push_back(*vertexPointer);
 		currentBufferIndex += vertexSize;
 	}
 
-	//mesh->m_verts.assign(vertexBuffer, vertexBuffer + vertexCount);
-	mesh->m_indices.assign(m_indices.begin(), m_indices.end());
-	mesh->Init();
+	//mesh->m_indices.assign(m_indices.begin(), m_indices.end());
+	mesh->Init(vertexBuffer, vertexCount, sizeofVertex, m_indices.data(), m_indices.size(), bindMeshFunction);
 
 	//mesh->vbo.write(vertexBuffer, vertex_buffer_size);
 	//mesh->draw_instructions.add_all(draw_instructions);
