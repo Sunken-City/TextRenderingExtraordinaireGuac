@@ -30,6 +30,9 @@
     <Filter Include="Data\NPCs">
       <UniqueIdentifier>{64dbe481-a38c-4053-93bb-143090f7d15e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Data\Shaders">
+      <UniqueIdentifier>{29770763-3f56-4cd3-b3cc-b0b1a0134d10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main_Win32.cpp">
@@ -168,5 +171,13 @@
     <Xml Include="..\..\..\..\..\..\..\pass2.xml">
       <Filter>Data</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Run_Win32\Data\Shaders\funkyFont.vert">
+      <Filter>Data\Shaders</Filter>
+    </None>
+    <None Include="..\..\Run_Win32\Data\Shaders\funkyFont.frag">
+      <Filter>Data\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

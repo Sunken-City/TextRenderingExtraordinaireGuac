@@ -157,6 +157,10 @@
     <Xml Include="..\..\Run_Win32\Data\XML\Maps\Pico.Map.xml" />
     <Xml Include="..\..\Run_Win32\Data\XML\NPCs\Slimes.NPC.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Run_Win32\Data\Shaders\funkyFont.frag" />
+    <None Include="..\..\Run_Win32\Data\Shaders\funkyFont.vert" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -18,6 +18,7 @@ private:
 
 	void ConstructMeshes();
 private:
+	std::vector<class MeshRenderer*> m_renderers;
 	std::vector<StringEffectFragment> m_fragments;
 	Vector3 m_bottomLeft;
 	Vector3 m_upVector;

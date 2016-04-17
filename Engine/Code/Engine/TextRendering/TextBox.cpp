@@ -3,6 +3,7 @@
 #include "Engine/Renderer/BitmapFont.hpp"
 #include "Engine/Core/StringUtils.hpp"
 #include "Engine/Renderer/MeshBuilder.hpp"
+#include "Engine/Renderer/MeshRenderer.hpp"
 
 #include <deque>
 
@@ -133,11 +134,16 @@ void TextBox::ConstructMeshes()
 
 		totalStringWidth += m_baseFont->CalcTextWidth(frag.m_value, m_scale);
 	}
-
-	MeshBuilder mb;
 	for (StringEffectFragment frag : m_fragments)
 	{
+		MeshBuilder mb;
 		mb.AddStringEffectFragment(frag.m_value, m_baseFont, m_scale, totalStringWidth, m_bottomLeft, m_upVector, m_rightVector);
+		Mesh* mesh = new Mesh();
+		mb.CopyToMesh(mesh, &Vertex_TextPCT::Copy, sizeof(Vertex_TextPCT), &Vertex_TextPCT::BindMeshToVAO);
+		Material* mat = new Material(new ShaderProgram("Data/Shaders/funkyFont.vert", "Data/Shaders/funkyFont.frag"),
+			RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::CULL_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND));
+		MeshRenderer* meshRenderer = new MeshRenderer(mesh, mat);
+		m_renderers.push_back(meshRenderer);
 	}
 }
 
