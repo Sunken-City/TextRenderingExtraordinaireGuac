@@ -15,17 +15,20 @@ in vec4 inColor;
 in vec2 inUV0;
 in vec2 inNormalizedGlyphPosition;
 in vec2 inNormalizedStringPosition;
+in float inNormalizedFragPosition;
 
 out vec2 passUV0;
 out vec2 passNormalizedGlyphPosition;
 out vec2 passNormalizedStringPosition;
+out float passNormalizedFragPosition;
 
 
 void main()
 {
 	passUV0 = inUV0;
-	//passNormalizedGlyphPosition = inNormalizedGlyphPosition;
+	passNormalizedGlyphPosition = inNormalizedGlyphPosition;
 	passNormalizedStringPosition = inNormalizedStringPosition;
+	passNormalizedFragPosition = inNormalizedFragPosition;
 	vec4 pos = vec4(inPosition, 1.f);
 	pos = pos * gModel * gView * gProj;
 	vec3 changePos = pos.xyz;
