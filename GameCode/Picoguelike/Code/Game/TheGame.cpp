@@ -15,6 +15,7 @@
 #include "Game/Entities/Player.hpp"
 #include "Game/Generators/Generator.hpp"
 #include "Game/Environments/EnvironmentBlueprint.hpp"
+#include "Engine/TextRendering/TextBox.hpp"
 
 TheGame* TheGame::instance = nullptr;
 extern bool g_isQuitting;
@@ -93,10 +94,14 @@ void TheGame::Update(float deltaSeconds)
 	}
 }
 
+static TextBox* tb = nullptr;
 //-----------------------------------------------------------------------------------
 void TheGame::UpdateMainMenu(float deltaSeconds)
 {
-	UNUSED(deltaSeconds);
+	if (tb)
+	{
+		tb->Update(deltaSeconds);
+	}
 	if (InputSystem::instance->WasKeyJustPressed('N'))
 	{
 		SetGameState(GameState::MAP_SELECTION);
@@ -247,36 +252,39 @@ void TheGame::Render()
 	}
 	Renderer::instance->EndOrtho();
 }
-#include "Engine/Time/Time.hpp"
 //-----------------------------------------------------------------------------------
 void TheGame::RenderMainMenu()
 {
-	if (m_mainMenuText == nullptr)
+	if (tb == nullptr)
 	{
-		MeshBuilder builder;
-		BitmapFont* bmFont = BitmapFont::CreateOrGetFontFromGlyphSheet("Runescape");
-		builder.AddStringEffectFragment("Picoguelike", bmFont, 5.f, 50.f, Vector3(450.0f, 150.0f, 0.0f), Vector3::UP, Vector3::RIGHT, 100.f, 100.f);
+		tb = new TextBox(Vector3(100.f, 300.f, 0.f), Vector3::UP, Vector3::RIGHT, 300.f, 150.f, 4.f, BitmapFont::CreateOrGetFontFromGlyphSheet("Runescape"));
+		tb->SetFromXMLNode(XMLNode::parseFile("D:/pass2.xml").getChildNode());
+		tb->ResetAnimation();
+		//MeshBuilder builder;
+		//BitmapFont* bmFont = BitmapFont::CreateOrGetFontFromGlyphSheet("Runescape");
+		//builder.AddStringEffectFragment("Picoguelike", bmFont, 5.f, 50.f, Vector3(450.0f, 150.0f, 0.0f), Vector3::UP, Vector3::RIGHT, 100.f, 100.f);
 		//builder.AddText2D(Vector2(450, 300), "New Game (N)", 5.0f, RGBA::CYAN, true, bmFont);
 		//builder.AddStringEffectFragment(Vector2(450, 150), "Quit (Q)", 5.0f, RGBA::CYAN, true, bmFont);
-		m_mainMenuText = new MeshRenderer(new Mesh(), bmFont->GetMaterial());
-		builder.CopyToMesh(m_mainMenuText->m_mesh, Vertex_TextPCT::Copy, sizeof(Vertex_TextPCT), Vertex_TextPCT::BindMeshToVAO);
+		//m_mainMenuText = new MeshRenderer(new Mesh(), bmFont->GetMaterial());
+		//builder.CopyToMesh(m_mainMenuText->m_mesh, Vertex_TextPCT::Copy, sizeof(Vertex_TextPCT), Vertex_TextPCT::BindMeshToVAO);
 		//m_mainMenuText->m_material->SetIntUniform("gShake", 1);
-		m_mainMenuText->m_material->SetVec3Uniform("gRightVector", Vector3::RIGHT);
-		m_mainMenuText->m_material->SetVec3Uniform("gUpVector", Vector3::UP);
-		m_mainMenuText->m_material->SetFloatUniform("gWave", 1.f);
+		//m_mainMenuText->m_material->SetVec3Uniform("gRightVector", Vector3::RIGHT);
+		//m_mainMenuText->m_material->SetVec3Uniform("gUpVector", Vector3::UP);
+		//m_mainMenuText->m_material->SetFloatUniform("gWave", 1.f);
 		//m_mainMenuText->m_material->SetDiffuseTexture(bmFont->GetTexture());
 	}
-	static float startTime = GetCurrentTimeSeconds();
-	static float totalTime = 0.f;
-	float endTime = GetCurrentTimeSeconds();
-	totalTime += (endTime - startTime);
-	if (totalTime > 3.f)
-	{
-		totalTime = 0.f;
-	}
-	startTime = endTime;
-	m_mainMenuText->m_material->SetFloatUniform("gTime", totalTime);
-	m_mainMenuText->Render();
+	tb->Render();
+	//static float startTime = GetCurrentTimeSeconds();
+	//static float totalTime = 0.f;
+	//float endTime = GetCurrentTimeSeconds();
+	//totalTime += (endTime - startTime);
+	//if (totalTime > 3.f)
+	//{
+	//	totalTime = 0.f;
+	//}
+	//startTime = endTime;
+	//m_mainMenuText->m_material->SetFloatUniform("gTime", totalTime);
+	//m_mainMenuText->Render();
 }
 
 //-----------------------------------------------------------------------------------
