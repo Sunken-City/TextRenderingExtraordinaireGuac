@@ -124,10 +124,6 @@ TextEffect StringEffectFragment::GetTextEffect(const struct XMLNode& node)
 			ERROR_AND_DIE(Stringf("wave effect value %s is invalid.  Expected a float", wave.c_str()));
 		}
 	}
-	else
-	{
-		result.wave = 1.f;
-	}
 
 	std::string shake = XMLUtils::GetAttribute(node, "shake");
 	if (shake != "")
@@ -142,10 +138,6 @@ TextEffect StringEffectFragment::GetTextEffect(const struct XMLNode& node)
 			ERROR_AND_DIE(Stringf("shake effect value %s is invalid.  Expected \"true\" or \"false\"", shake.c_str()));
 		}
 	}
-	else
-	{
-		result.shake = false;
-	}
 
 	std::string dilate = XMLUtils::GetAttribute(node, "dilate");
 	if (dilate != "")
@@ -158,10 +150,6 @@ TextEffect StringEffectFragment::GetTextEffect(const struct XMLNode& node)
 		{
 			ERROR_AND_DIE(Stringf("dilate effect value %s is invalid.  Expected a float", wave.c_str()));
 		}
-	}
-	else
-	{
-		result.dilate = 0.f;
 	}
 
 	std::string pop = XMLUtils::GetAttribute(node, "pop");
@@ -177,20 +165,12 @@ TextEffect StringEffectFragment::GetTextEffect(const struct XMLNode& node)
 			ERROR_AND_DIE(Stringf("pop effect value %s is invalid.  Expected \"true\" or \"false\"", shake.c_str()));
 		}
 	}
-	else
-	{
-		result.pop = false;
-	}
 
 	std::string color = XMLUtils::GetAttribute(node, "color");
 	if (color != "")
 	{
 		RGBA universalColor = GetColorFromHexString(color);
 		result.color1 = result.color2 = universalColor;
-	}
-	else
-	{
-		result.color1 = result.color2 = RGBA::WHITE;
 	}
 
 	std::string color1 = XMLUtils::GetAttribute(node, "color1");
@@ -199,20 +179,12 @@ TextEffect StringEffectFragment::GetTextEffect(const struct XMLNode& node)
 		RGBA rgba1 = GetColorFromHexString(color1);
 		result.color1 = rgba1;
 	}
-	else
-	{
-		result.color1 = RGBA::WHITE;
-	}
 
 	std::string color2 = XMLUtils::GetAttribute(node, "color2");
 	if (color2 != "")
 	{
 		RGBA rgba2 = GetColorFromHexString(color2);
 		result.color2 = rgba2;
-	}
-	else
-	{
-		result.color2 = RGBA::WHITE;
 	}
 
 	std::string rainbow = XMLUtils::GetAttribute(node, "rainbow");
@@ -227,10 +199,6 @@ TextEffect StringEffectFragment::GetTextEffect(const struct XMLNode& node)
 		{
 			ERROR_AND_DIE(Stringf("rainbow effect value %s is invalid.  Expected \"true\" or \"false\"", shake.c_str()));
 		}
-	}
-	else
-	{
-		result.rainbow = false;
 	}
 
 	return result;
