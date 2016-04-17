@@ -16,12 +16,12 @@ out vec4 outColor;
 void main()
 {
 	vec4 diffuse = texture(gDiffuseTexture, passUV0);
-	//if (gTime < passNormalizedStringPosition * 10.f)
-	//{
-	//	outColor = vec4(0.f);
-	//}
-	//else
-	//{
-		outColor = diffuse;
-	//}
+	if (gTime < passNormalizedStringPosition.x * .1f)
+	{
+		outColor = vec4(0.f);
+	}
+	else
+	{
+	outColor = diffuse;
+	}
 }

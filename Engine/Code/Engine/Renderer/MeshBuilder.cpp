@@ -510,24 +510,28 @@ void MeshBuilder::AddTexturedAABB(const AABB2& bounds, const Vector2& uvMins, co
 
 
 //-----------------------------------------------------------------------------------
-void MeshBuilder::AddGlyph(const Vector3& bottomLeft, const Vector3& up, const Vector3& right, float upExtents, float rightExtents, const Vector2& uvMins, const Vector2& uvMaxs, const RGBA& color)
+void MeshBuilder::AddGlyph(const Vector3& bottomLeft, const Vector3& up, const Vector3& right, float upExtents, float rightExtents, const Vector2& uvMins, const Vector2& uvMaxs, const RGBA& color, float stringCoordXMin, float stringCoordXMax)
 {
 	int startingVertex = m_vertices.size();
 	Vector3 topLeft = bottomLeft + (up * upExtents);
 	Vector3 bottomRight = bottomLeft + (right * rightExtents);
-	Vector3 topRight = topLeft + bottomRight - bottomLeft;
+	Vector3 topRight = topLeft + (right * rightExtents);
 	SetColor(color);
 	SetUV(uvMins);
 	SetNormalizedGlyphCoords(Vector2::ZERO);
+	SetNormalizedStringCoords(Vector2(stringCoordXMin, 0.f));
 	AddVertex(bottomLeft);
 	SetUV(Vector2(uvMaxs.x, uvMins.y));
 	SetNormalizedGlyphCoords(Vector2::UNIT_X);
+	SetNormalizedStringCoords(Vector2(stringCoordXMax, 0.f));
 	AddVertex(bottomRight);
 	SetUV(uvMaxs);
 	SetNormalizedGlyphCoords(Vector2::ONE);
+	SetNormalizedStringCoords(Vector2(stringCoordXMax, 0.f));
 	AddVertex(topRight);
 	SetUV(Vector2(uvMins.x, uvMaxs.y));
 	SetNormalizedGlyphCoords(Vector2::UNIT_Y);
+	SetNormalizedStringCoords(Vector2(stringCoordXMin, 0.f));
 	AddVertex(topLeft);
 	AddQuadIndices(startingVertex + 3, startingVertex + 2, startingVertex + 0, startingVertex + 1);
 }
@@ -589,8 +593,9 @@ void MeshBuilder::AddStringEffectFragment(const std::string& asciiText, const Bi
 		font = Renderer::instance->m_defaultFont;
 	}
 	int stringLength = asciiText.size();
-	Vector3 cursorPosition = bottomLeft + (up * (float)font->m_maxHeight * scale);
+	Vector3 cursorPosition = bottomLeft + (up * height);
 	const Glyph* previousGlyph = nullptr;
+	float totalWidthSoFar = 0;
 	for (int i = 0; i < stringLength; i++)
 	{
 		unsigned char currentCharacter = asciiText[i];
@@ -601,24 +606,28 @@ void MeshBuilder::AddStringEffectFragment(const std::string& asciiText, const Bi
 		if (previousGlyph)
 		{
 			const Vector2 kerning = font->GetKerning(*previousGlyph, *glyph);
-			cursorPosition += (kerning * scale);
+			cursorPosition += kerning.x * scale * right + kerning.y * scale * up;
 		}
 		Vector3 offset = (right * (glyph->xOffset * scale)) + (up * (-glyph->yOffset * scale));
 		Vector3 topRight = cursorPosition + offset + (right * (glyphWidth));
-		Vector3 bottomLeft = cursorPosition + offset - (up * glyphHeight);
-		//AABB2 quadBounds = AABB2(bottomLeft, topRight);
+		Vector3 bl = cursorPosition + offset - (up * glyphHeight);
+		AABB2 quadBounds = AABB2(Vector2(bl.x, bl.y), Vector2(topRight.x, topRight.y));
 		AABB2 glyphBounds = font->GetTexCoordsForGlyph(*glyph);
-		if (drawShadow)
-		{
-			float shadowWidthOffset = glyphWidth / 10.0f;
-			float shadowHeightOffset = glyphHeight / -10.0f;
-			Vector3 shadowOffset = (right * shadowWidthOffset) + (up * shadowHeightOffset);
-			//Vector2 shadowOffset = Vector2(shadowWidthOffset, shadowHeightOffset);
-			//AABB2 shadowBounds = AABB2(bottomLeft + shadowOffset, topRight + shadowOffset);
-			this->AddGlyph(bottomLeft, up, right, shadowHeightOffset, shadowWidthOffset, glyphBounds.mins, glyphBounds.maxs, RGBA::BLACK);
-		}
-		this->AddGlyph(bottomLeft, up, right, (glyph->xOffset * scale), (-glyph->yOffset * scale), glyphBounds.mins, glyphBounds.maxs, tint);
-		cursorPosition.x += glyph->xAdvance * scale;
+// 		if (drawShadow)
+// 		{
+// 			float shadowWidthOffset = glyphWidth / 10.0f;
+// 			float shadowHeightOffset = glyphHeight / -10.0f;
+// 			Vector3 shadowOffset = (right * shadowWidthOffset) + (up * shadowHeightOffset);
+// 			//Vector2 shadowOffset = Vector2(shadowWidthOffset, shadowHeightOffset);
+// 			//AABB2 shadowBounds = AABB2(bottomLeft + shadowOffset, topRight + shadowOffset);
+// 			this->AddGlyph(bottomLeft, up, right, shadowHeightOffset, shadowWidthOffset, glyphBounds.mins, glyphBounds.maxs, RGBA::BLACK);
+// 		}
+		//this->AddTexturedAABB(quadBounds, glyphBounds.mins, glyphBounds.maxs, RGBA::WHITE);
+		float stringXMin = totalWidthSoFar / totalStringWidth;
+		totalWidthSoFar += glyph->xAdvance * scale;
+		float stringXMax = totalWidthSoFar / totalStringWidth;
+		cursorPosition += glyph->xAdvance * scale * right;
+		this->AddGlyph(bl, up, right, (glyph->height * scale), (glyph->width * scale), glyphBounds.mins, glyphBounds.maxs, RGBA::WHITE, stringXMin, stringXMax);
 		previousGlyph = glyph;
 	}
 }

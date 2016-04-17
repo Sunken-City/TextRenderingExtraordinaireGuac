@@ -247,7 +247,7 @@ void TheGame::Render()
 	}
 	Renderer::instance->EndOrtho();
 }
-
+#include "Engine/Time/Time.hpp"
 //-----------------------------------------------------------------------------------
 void TheGame::RenderMainMenu()
 {
@@ -255,12 +255,27 @@ void TheGame::RenderMainMenu()
 	{
 		MeshBuilder builder;
 		BitmapFont* bmFont = BitmapFont::CreateOrGetFontFromGlyphSheet("Runescape");
-		builder.AddStringEffectFragment("Picougelike", bmFont, 7.0f, 5.0f, Vector3(450.0f, 600.0f, 0.0f), Vector3::UP, Vector3::RIGHT,);
-		builder.AddStringEffectFragment(Vector2(450, 300), "New Game (N)", 5.0f, RGBA::CYAN, true, bmFont);
-		builder.AddStringEffectFragment(Vector2(450, 150), "Quit (Q)", 5.0f, RGBA::CYAN, true, bmFont);
+		builder.AddStringEffectFragment("Picoguelike", bmFont, 5.f, 50.f, Vector3(450.0f, 150.0f, 0.0f), Vector3::UP, Vector3::RIGHT, 100.f, 100.f);
+		//builder.AddText2D(Vector2(450, 300), "New Game (N)", 5.0f, RGBA::CYAN, true, bmFont);
+		//builder.AddStringEffectFragment(Vector2(450, 150), "Quit (Q)", 5.0f, RGBA::CYAN, true, bmFont);
 		m_mainMenuText = new MeshRenderer(new Mesh(), bmFont->GetMaterial());
 		builder.CopyToMesh(m_mainMenuText->m_mesh, Vertex_TextPCT::Copy, sizeof(Vertex_TextPCT), Vertex_TextPCT::BindMeshToVAO);
+		//m_mainMenuText->m_material->SetIntUniform("gShake", 1);
+		m_mainMenuText->m_material->SetVec3Uniform("gRightVector", Vector3::RIGHT);
+		m_mainMenuText->m_material->SetVec3Uniform("gUpVector", Vector3::UP);
+		m_mainMenuText->m_material->SetFloatUniform("gWave", 1.f);
+		//m_mainMenuText->m_material->SetDiffuseTexture(bmFont->GetTexture());
 	}
+	static float startTime = GetCurrentTimeSeconds();
+	static float totalTime = 0.f;
+	float endTime = GetCurrentTimeSeconds();
+	totalTime += (endTime - startTime);
+	if (totalTime > 3.f)
+	{
+		totalTime = 0.f;
+	}
+	startTime = endTime;
+	m_mainMenuText->m_material->SetFloatUniform("gTime", totalTime);
 	m_mainMenuText->Render();
 }
 

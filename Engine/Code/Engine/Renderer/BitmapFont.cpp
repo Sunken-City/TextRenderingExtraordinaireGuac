@@ -143,7 +143,7 @@ BitmapFont::BitmapFont(const std::string& bitmapFontName)
 	, m_isMonospaced(true)
 	, m_maxHeight(CHARACTER_WIDTH)
 	, m_material(new Material(new ShaderProgram("Data/Shaders/fixedVertexFormat.vert", "Data/Shaders/fixedVertexFormat.frag"),
-		RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::CULL_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)))
+		RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)))
 {
 	m_imageDimensions = m_spriteSheet.GetTexture()->m_texelSize;
 	m_material->SetDiffuseTexture(m_spriteSheet.GetTexture());
@@ -154,8 +154,8 @@ BitmapFont::BitmapFont(const std::string& bitmapFontName, const std::string& gly
 	: m_spriteSheet("Data/Fonts/" + bitmapFontName + ".png", CHARACTER_WIDTH, CHARACTER_WIDTH)
 	, m_isMonospaced(false)
 	, m_maxHeight(0)
-	, m_material(new Material(new ShaderProgram("Data/Shaders/fixedVertexFormat.vert", "Data/Shaders/fixedVertexFormat.frag"),
-		RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::CULL_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)))
+	, m_material(new Material(new ShaderProgram("Data/Shaders/funkyFont.vert", "Data/Shaders/funkyFont.frag"),
+		RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::RENDER_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND)))
 {
 	m_imageDimensions = m_spriteSheet.GetTexture()->m_texelSize;
 	std::vector<std::string> glyphSheet;
