@@ -47,7 +47,7 @@ public:
 	static BitmapFont* GetFontByName(const std::string& imageFilePath);
 	static BitmapFont* CreateOrGetFont(const std::string& bitmapFontName);
 	static BitmapFont* CreateOrGetFontFromGlyphSheet(const std::string& bitmapFontName);
-	float CalcTextWidth(const std::string& textToWrite, float scale);
+	float CalcTextWidth(const std::string& textToWrite, float scale) const;
 
 	//GETTERS//////////////////////////////////////////////////////////////////////////
 	AABB2 GetTexCoordsForGlyph(int glyphAscii) const;

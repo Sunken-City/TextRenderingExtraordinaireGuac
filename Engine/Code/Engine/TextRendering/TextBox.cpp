@@ -17,6 +17,7 @@ TextBox::TextBox(const Vector3& bottomLeft, const Vector3& upVector, const Vecto
 	, m_width(width)
 	, m_height(height)
 	, m_scale(scale)
+	, m_totalTimeSinceReset(0.f)
 {
 }
 
@@ -122,32 +123,63 @@ void TextBox::EvaluateLine(std::deque<StringEffectFragment>& currLine, std::dequ
 
 
 //-----------------------------------------------------------------------------------------------
+static void SetEffectProperties(Material* mat, const StringEffectFragment& frag)
+{
+	mat->SetFloatUniform("gWave", frag.m_effect.wave);
+	mat->SetIntUniform("gShake", (int)frag.m_effect.shake);
+	mat->SetFloatUniform("gDilate", frag.m_effect.dilate);
+	mat->SetIntUniform("gPop", (int)frag.m_effect.pop);
+	mat->SetVec4Uniform("gColor1", frag.m_effect.color1.ToVec4());
+	mat->SetVec4Uniform("gColor2", frag.m_effect.color2.ToVec4());
+	mat->SetIntUniform("gRainbow", (int)frag.m_effect.rainbow);
+}
+
+//-----------------------------------------------------------------------------------------------
 void TextBox::ConstructMeshes()
 {
 	float totalStringWidth = 0.f;
+	std::vector<float>lineWidths;
+	float currLineWidth = 0.f;
 	for (StringEffectFragment frag : m_fragments)
 	{
 		if (frag.m_value == "\n")
 		{
+			lineWidths.push_back(currLineWidth);
+			currLineWidth = 0.f;
 			continue;
 		}
 
 		totalStringWidth += m_baseFont->CalcTextWidth(frag.m_value, m_scale);
+		currLineWidth += m_baseFont->CalcTextWidth(frag.m_value, m_scale);
 	}
 	float totalWidthUpToNow = 0.f;
+	int lineNum = 0;
 	for (StringEffectFragment frag : m_fragments)
 	{
 
 		MeshBuilder mb;
-		mb.AddStringEffectFragment(frag.m_value, m_baseFont, m_scale, totalStringWidth, totalWidthUpToNow, m_bottomLeft, m_upVector, m_rightVector, m_width, m_height);
+		mb.AddStringEffectFragment(frag.m_value, m_baseFont, m_scale, totalStringWidth, totalWidthUpToNow, m_bottomLeft, m_upVector, m_rightVector, m_width, m_height, lineNum, lineWidths[lineNum]);
 		Mesh* mesh = new Mesh();
 		mb.CopyToMesh(mesh, &Vertex_TextPCT::Copy, sizeof(Vertex_TextPCT), &Vertex_TextPCT::BindMeshToVAO);
 		Material* mat = new Material(new ShaderProgram("Data/Shaders/funkyFont.vert", "Data/Shaders/funkyFont.frag"),
 			RenderState(RenderState::DepthTestingMode::OFF, RenderState::FaceCullingMode::CULL_BACK_FACES, RenderState::BlendMode::ALPHA_BLEND));
+		SetEffectProperties(mat, frag);
+		mat->SetVec3Uniform("gUpVector", m_upVector);
+		mat->SetVec3Uniform("gRightVector", m_rightVector);
 		MeshRenderer* meshRenderer = new MeshRenderer(mesh, mat);
 		m_renderers.push_back(meshRenderer);
 		totalWidthUpToNow += m_baseFont->CalcTextWidth(frag.m_value, m_scale);
+		if (frag.m_value == "\n")
+		{
+			lineNum++;
+		}
 	}
+}
+
+//-----------------------------------------------------------------------------------------------
+void TextBox::ResetAnimation()
+{
+	m_totalTimeSinceReset = 0.f;
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -200,4 +232,23 @@ void TextBox::SetFromXMLNode(const struct XMLNode& node)
 	}
 
 	ConstructMeshes();
+}
+
+//-----------------------------------------------------------------------------------------------
+void TextBox::Update(float deltaSeconds)
+{
+	m_totalTimeSinceReset += deltaSeconds;
+	for (MeshRenderer* mr : m_renderers)
+	{
+		mr->m_material->SetFloatUniform("gTime", m_totalTimeSinceReset);
+	}
+}
+
+//-----------------------------------------------------------------------------------------------
+void TextBox::Render() const
+{
+	for (const MeshRenderer* mr : m_renderers)
+	{
+		mr->Render();
+	}
 }

@@ -23,6 +23,7 @@ struct Vertex_Master
 	Vector2 uv1;
 	Vector2 normalizedGlyphPosition;
 	Vector2 normalizedStringPosition;
+	float normalizedFragPosition;
 };
 
 //-----------------------------------------------------------------------------------
@@ -52,12 +53,13 @@ struct Vertex_TextPCT
 	Vertex_TextPCT(const Vector3& position) : pos(position) {};
 	Vertex_TextPCT(const Vector3& position, const RGBA& color) : pos(position), color(color) {};
 	Vertex_TextPCT(const Vector3& position, const RGBA& color, const Vector2& texCoords) : pos(position), color(color), texCoords(texCoords) {};
-	Vertex_TextPCT(const Vector3& position, const RGBA& color, const Vector2& texCoords, const Vector2& normalizedGlyphPosition, const Vector2 normalizedStringPosition) 
+	Vertex_TextPCT(const Vector3& position, const RGBA& color, const Vector2& texCoords, const Vector2& normalizedGlyphPosition, const Vector2 normalizedStringPosition, float normalizedFragPosition) 
 		: pos(position)
 		, color(color)
 		, texCoords(texCoords)
 		, normalizedGlyphPosition(normalizedGlyphPosition)
-		, normalizedStringPosition(normalizedStringPosition) {};
+		, normalizedStringPosition(normalizedStringPosition)
+		, normalizedFragPosition(normalizedFragPosition) {};
 	static void Copy(const Vertex_Master& source, byte* destination);
 	static void BindMeshToVAO(GLuint vao, GLuint vbo, GLuint ibo, ShaderProgram* program);
 
@@ -67,6 +69,7 @@ struct Vertex_TextPCT
 	Vector2 texCoords;
 	Vector2 normalizedGlyphPosition;
 	Vector2 normalizedStringPosition;
+	float normalizedFragPosition;
 };
 
 

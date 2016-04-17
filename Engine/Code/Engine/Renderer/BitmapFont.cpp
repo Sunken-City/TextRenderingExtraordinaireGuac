@@ -120,7 +120,7 @@ int BitmapFont::GetCharacterWidth()
 }
 
 //-----------------------------------------------------------------------------------
-float BitmapFont::CalcTextWidth(const std::string& textToWrite, float scale)
+float BitmapFont::CalcTextWidth(const std::string& textToWrite, float scale) const
 {
 	const Glyph* previousGlyph = nullptr;
 	float totalWidth = 0.0f;

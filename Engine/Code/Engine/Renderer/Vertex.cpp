@@ -65,6 +65,7 @@ void Vertex_TextPCT::Copy(const Vertex_Master& source, byte* destination)
 	textPCT->texCoords = source.uv0;
 	textPCT->normalizedGlyphPosition = source.normalizedGlyphPosition;
 	textPCT->normalizedStringPosition = source.normalizedStringPosition;
+	textPCT->normalizedFragPosition = source.normalizedFragPosition;
 }
 
 void Vertex_TextPCT::BindMeshToVAO(GLuint vao, GLuint vbo, GLuint ibo, ShaderProgram* program)
@@ -76,6 +77,7 @@ void Vertex_TextPCT::BindMeshToVAO(GLuint vao, GLuint vbo, GLuint ibo, ShaderPro
 	program->ShaderProgramBindProperty("inUV0", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex_TextPCT), offsetof(Vertex_TextPCT, texCoords));
 	program->ShaderProgramBindProperty("inNormalizedGlyphPosition", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex_TextPCT), offsetof(Vertex_TextPCT, normalizedGlyphPosition));
 	program->ShaderProgramBindProperty("inNormalizedStringPosition", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex_TextPCT), offsetof(Vertex_TextPCT, normalizedStringPosition));
+	program->ShaderProgramBindProperty("inNormalizedFragPosition", 1, GL_FLOAT, GL_FALSE, sizeof(Vertex_TextPCT), offsetof(Vertex_TextPCT, normalizedFragPosition));
 	glBindBuffer(GL_ARRAY_BUFFER, NULL);
 	if (ibo != NULL)
 	{

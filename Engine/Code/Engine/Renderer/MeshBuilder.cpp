@@ -510,7 +510,8 @@ void MeshBuilder::AddTexturedAABB(const AABB2& bounds, const Vector2& uvMins, co
 
 
 //-----------------------------------------------------------------------------------
-void MeshBuilder::AddGlyph(const Vector3& bottomLeft, const Vector3& up, const Vector3& right, float upExtents, float rightExtents, const Vector2& uvMins, const Vector2& uvMaxs, const RGBA& color, float stringCoordXMin, float stringCoordXMax)
+void MeshBuilder::AddGlyph(const Vector3& bottomLeft, const Vector3& up, const Vector3& right, float upExtents, float rightExtents, const Vector2& uvMins, const Vector2& uvMaxs, const RGBA& color, 
+	float stringCoordXMin, float stringCoordXMax, float fragCoordXMin, float fragCoordXMax)
 {
 	int startingVertex = m_vertices.size();
 	Vector3 topLeft = bottomLeft + (up * upExtents);
@@ -520,18 +521,22 @@ void MeshBuilder::AddGlyph(const Vector3& bottomLeft, const Vector3& up, const V
 	SetUV(uvMins);
 	SetNormalizedGlyphCoords(Vector2::ZERO);
 	SetNormalizedStringCoords(Vector2(stringCoordXMin, 0.f));
+	SetNormalizedFragCoords(fragCoordXMin);
 	AddVertex(bottomLeft);
 	SetUV(Vector2(uvMaxs.x, uvMins.y));
 	SetNormalizedGlyphCoords(Vector2::UNIT_X);
 	SetNormalizedStringCoords(Vector2(stringCoordXMax, 0.f));
+	SetNormalizedFragCoords(fragCoordXMax);
 	AddVertex(bottomRight);
 	SetUV(uvMaxs);
 	SetNormalizedGlyphCoords(Vector2::ONE);
 	SetNormalizedStringCoords(Vector2(stringCoordXMax, 0.f));
+	SetNormalizedFragCoords(fragCoordXMax);
 	AddVertex(topRight);
 	SetUV(Vector2(uvMins.x, uvMaxs.y));
 	SetNormalizedGlyphCoords(Vector2::UNIT_Y);
 	SetNormalizedStringCoords(Vector2(stringCoordXMin, 0.f));
+	SetNormalizedFragCoords(fragCoordXMin);
 	AddVertex(topLeft);
 	AddQuadIndices(startingVertex + 3, startingVertex + 2, startingVertex + 0, startingVertex + 1);
 }
@@ -583,7 +588,7 @@ void MeshBuilder::AddText2D(const Vector2& position, const std::string& asciiTex
 
 //-----------------------------------------------------------------------------------
 void MeshBuilder::AddStringEffectFragment(const std::string& asciiText, const BitmapFont* font, float scale, float totalStringWidth, float totalWidthUpToNow,
-	const Vector3& bottomLeft, const Vector3& up, const Vector3& right, float width, float height)
+	const Vector3& bottomLeft, const Vector3& up, const Vector3& right, float width, float height, int lineNum, float lineWidth)
 {
 	if (asciiText.empty())
 	{
@@ -594,9 +599,11 @@ void MeshBuilder::AddStringEffectFragment(const std::string& asciiText, const Bi
 		font = Renderer::instance->m_defaultFont;
 	}
 	int stringLength = asciiText.size();
-	Vector3 cursorPosition = bottomLeft + (up * height);
+	Vector3 cursorPosition = bottomLeft + (up * height) - ((float)lineNum * font->m_maxHeight * scale * up) + (lineWidth * .5f * right * scale) + (totalWidthUpToNow * scale * right);
 	const Glyph* previousGlyph = nullptr;
-	float totalWidthSoFar = 0;
+	float totalWidthSoFar = totalWidthUpToNow;
+	float localWidthSoFar = 0;
+	float fragmentWidth = font->CalcTextWidth(asciiText, scale);
 	for (int i = 0; i < stringLength; i++)
 	{
 		unsigned char currentCharacter = asciiText[i];
@@ -625,10 +632,13 @@ void MeshBuilder::AddStringEffectFragment(const std::string& asciiText, const Bi
 // 		}
 		//this->AddTexturedAABB(quadBounds, glyphBounds.mins, glyphBounds.maxs, RGBA::WHITE);
 		float stringXMin = totalWidthSoFar / totalStringWidth;
+		float fragXMin = localWidthSoFar / fragmentWidth;
 		totalWidthSoFar += glyph->xAdvance * scale;
+		localWidthSoFar += glyph->xAdvance * scale;
 		float stringXMax = totalWidthSoFar / totalStringWidth;
+		float fragXMax = localWidthSoFar / fragmentWidth;
 		cursorPosition += glyph->xAdvance * scale * right;
-		this->AddGlyph(bl, up, right, (glyph->height * scale), (glyph->width * scale), glyphBounds.mins, glyphBounds.maxs, RGBA::WHITE, stringXMin, stringXMax);
+		this->AddGlyph(bl, up, right, (glyph->height * scale), (glyph->width * scale), glyphBounds.mins, glyphBounds.maxs, RGBA::WHITE, stringXMin, stringXMax, fragXMin, fragXMax);
 		previousGlyph = glyph;
 	}
 }

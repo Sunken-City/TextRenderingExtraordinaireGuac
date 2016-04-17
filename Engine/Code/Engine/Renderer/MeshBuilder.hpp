@@ -52,9 +52,11 @@ public:
 	void AddQuadIndices(unsigned int tlIndex, unsigned int trIndex, unsigned int blIndex, unsigned int brIndex);
 	void AddQuadIndices();
 	void AddTexturedAABB(const AABB2& bounds, const Vector2& uvMins, const Vector2& uvMaxs, const RGBA& color);
-	void AddGlyph(const Vector3& bottomLeft, const Vector3& up, const Vector3& right, float upExtents, float rightExtents, const Vector2& uvMins, const Vector2& uvMaxs, const RGBA& color, float stringCoordXMin, float stringCoordXMax);
+	void AddGlyph(const Vector3& bottomLeft, const Vector3& up, const Vector3& right, float upExtents, float rightExtents, const Vector2& uvMins, const Vector2& uvMaxs, const RGBA& color, 
+		float stringCoordXMin, float stringCoordXMax, float fragCoordXMin, float fragCoordXMax);
 	void AddText2D(const Vector2& position, const std::string& asciiText, float scale, const RGBA& tint = RGBA::WHITE, bool drawShadow = false, const BitmapFont* font = nullptr);
-	void AddStringEffectFragment(const std::string& asciiText, const BitmapFont* font, float scale, float totalStringWidth, float totalWidthUpToNow, const Vector3& bottomLeft, const Vector3& up, const Vector3& right, float width, float height);
+	void AddStringEffectFragment(const std::string& asciiText, const BitmapFont* font, float scale, float totalStringWidth, float totalWidthUpToNow, 
+		const Vector3& bottomLeft, const Vector3& up, const Vector3& right, float width, float height, int lineNum, float lineWidth);
 	void BuildQuad(const Vector3& initialPosition, const Vector3& right, const Vector3& up, float startX, float endX, float startY, float endY, float startU = 0.0f, float endU = 1.0f, float startV = 0.0f, float endV = 1.0f);
 	void BuildPlane(const Vector3& initialPosition, const Vector3& right, const Vector3& up, float startX, float endX, uint32_t xSections, float startY, float endY, uint32_t ySections);
 	void BuildPlaneFromFunc(const Vector3& initialPosition, const Vector3& right, const Vector3& up, float startX, float endX, uint32_t xSections, float startY, float endY, uint32_t ySections);
@@ -81,6 +83,7 @@ public:
 	};
 	inline void SetNormalizedGlyphCoords(const Vector2& ngc) { m_stamp.normalizedGlyphPosition = ngc; };
 	inline void SetNormalizedStringCoords(const Vector2& nsc) { m_stamp.normalizedStringPosition = nsc; }
+	inline void SetNormalizedFragCoords(float nfc) { m_stamp.normalizedFragPosition = nfc; }
 	inline void SetMaterialName(const char* materialName) { m_materialName = materialName; };
 	inline void SetMaskBit(const MeshDataFlag flag) { m_dataMask |= (1 << flag); };
 
