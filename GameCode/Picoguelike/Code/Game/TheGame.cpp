@@ -1,18 +1,20 @@
 #include "Game/TheGame.hpp"
-#include "Engine/Renderer/Renderer.hpp"
 #include "Engine/Renderer/RGBA.hpp"
-#include "Engine/Renderer/BitmapFont.hpp"
 #include "Engine/Renderer/AABB2.hpp"
+#include "Engine/Renderer/Renderer.hpp"
+#include "Engine/Renderer/BitmapFont.hpp"
+#include "Engine/Renderer/MeshRenderer.hpp"
+#include "Engine/Renderer/MeshBuilder.hpp"
 #include "Engine/Math/Vector2.hpp"
 #include "Engine/Input/InputSystem.hpp"
 #include "Engine/Core/StringUtils.hpp"
-#include "Game/StateMachine.hpp"
 #include "Game/Map/Map.hpp"
+#include "Game/StateMachine.hpp"
+#include "Game/Entities/Agent.hpp"
+#include "Game/Entities/Entity.hpp"
+#include "Game/Entities/Player.hpp"
 #include "Game/Generators/Generator.hpp"
 #include "Game/Environments/EnvironmentBlueprint.hpp"
-#include "Game/Entities/Entity.hpp"
-#include "Game/Entities/Agent.hpp"
-#include "Game/Entities/Player.hpp"
 
 TheGame* TheGame::instance = nullptr;
 extern bool g_isQuitting;
@@ -24,6 +26,7 @@ TheGame::TheGame()
 	, m_currentGenerator(GeneratorRegistration::CreateGeneratorByName("CellularAutomata"))
 	, m_autoGenerate(true)
 	, m_player(nullptr)
+	, m_mainMenuText(nullptr)
 {
 	SetGameState(GameState::MAIN_MENU);
 }
@@ -248,9 +251,17 @@ void TheGame::Render()
 //-----------------------------------------------------------------------------------
 void TheGame::RenderMainMenu()
 {
-	Renderer::instance->DrawText2D(Vector2(450, 600), "Picougelike", 7.0f, RGBA::VAPORWAVE, true, BitmapFont::CreateOrGetFontFromGlyphSheet("Runescape"));
-	Renderer::instance->DrawText2D(Vector2(450, 300), "New Game (N)", 5.0f, RGBA::CYAN, true, BitmapFont::CreateOrGetFontFromGlyphSheet("Runescape"));
-	Renderer::instance->DrawText2D(Vector2(450, 150), "Quit (Q)", 5.0f, RGBA::CYAN, true, BitmapFont::CreateOrGetFontFromGlyphSheet("Runescape"));
+	if (m_mainMenuText == nullptr)
+	{
+		MeshBuilder builder;
+		BitmapFont* bmFont = BitmapFont::CreateOrGetFontFromGlyphSheet("Runescape");
+		builder.AddText2D(Vector2(450, 600), "Picougelike", 7.0f, RGBA::VAPORWAVE, true, bmFont);
+		builder.AddText2D(Vector2(450, 300), "New Game (N)", 5.0f, RGBA::CYAN, true, bmFont);
+		builder.AddText2D(Vector2(450, 150), "Quit (Q)", 5.0f, RGBA::CYAN, true, bmFont);
+		m_mainMenuText = new MeshRenderer(new Mesh(), bmFont->GetMaterial());
+		builder.CopyToMesh(m_mainMenuText->m_mesh, Vertex_TextPCT::Copy, sizeof(Vertex_TextPCT), Vertex_TextPCT::BindMeshToVAO);
+	}
+	m_mainMenuText->Render();
 }
 
 //-----------------------------------------------------------------------------------

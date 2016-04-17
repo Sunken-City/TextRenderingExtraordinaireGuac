@@ -46,6 +46,7 @@ class BitmapFont;
 class ShaderProgram;
 class Material;
 class Framebuffer;
+class TextBox;
 struct Vertex_PCT;
 struct Vertex_PCUTB;
 

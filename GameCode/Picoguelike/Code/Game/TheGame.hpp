@@ -6,6 +6,7 @@ class Generator;
 class EnvironmentBlueprint;
 class Agent;
 class Player;
+class MeshRenderer;
 
 class TheGame
 {
@@ -39,4 +40,5 @@ public:
 	bool m_autoGenerate;
 	std::vector<Agent*> m_entities;
 	Player* m_player;
+	MeshRenderer* m_mainMenuText;
 };

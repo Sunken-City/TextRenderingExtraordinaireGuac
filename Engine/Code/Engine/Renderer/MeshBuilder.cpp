@@ -5,6 +5,7 @@
 #include "Engine/Input/BinaryWriter.hpp"
 #include "Engine/Input/BinaryReader.hpp"
 #include "Engine/Renderer/AABB2.hpp"
+#include "Engine/Renderer/BitmapFont.hpp"
 
 extern MeshBuilder* g_loadedMeshBuilder;
 extern Mesh* g_loadedMesh;
@@ -70,6 +71,7 @@ void MeshBuilder::End()
 	}
 }
 
+//-----------------------------------------------------------------------------------
 MeshBuilder* MeshBuilder::Merge(MeshBuilder* meshBuilderArray, unsigned int numberOfMeshes)
 {
 	MeshBuilder* combinedMesh = new MeshBuilder();
@@ -301,6 +303,7 @@ void MeshBuilder::BuildPlane(
 	this->End();
 }
 
+//-----------------------------------------------------------------------------------
 static Vector3 PlaneFunc(const void* userData, float x, float y)
 {
 	MeshBuilder::PlaneData const *plane = (MeshBuilder::PlaneData const*)userData;
@@ -311,6 +314,7 @@ static Vector3 PlaneFunc(const void* userData, float x, float y)
 	return position;
 }
 
+//-----------------------------------------------------------------------------------
 void MeshBuilder::BuildPlaneFromFunc(
 	const Vector3& initialPosition,
 	const Vector3& right,
@@ -410,6 +414,7 @@ void MeshBuilder::BuildPatch(
 	this->End();
 }
 
+//-----------------------------------------------------------------------------------
 void MeshBuilder::WriteDataMask(IBinaryWriter& writer)
 {
 	if ((m_dataMask & (1 << POSITION_BIT)) != 0)
@@ -444,6 +449,7 @@ void MeshBuilder::WriteDataMask(IBinaryWriter& writer)
 	writer.WriteString(nullptr);
 }
 
+//-----------------------------------------------------------------------------------
 uint32_t MeshBuilder::ReadDataMask(IBinaryReader& reader)
 {
 	uint32_t mask = 0;
@@ -486,6 +492,7 @@ uint32_t MeshBuilder::ReadDataMask(IBinaryReader& reader)
 	return mask;
 }
 
+//-----------------------------------------------------------------------------------
 void MeshBuilder::AddTexturedAABB(const AABB2& bounds, const Vector2& uvMins, const Vector2& uvMaxs, const RGBA& color)
 {
 	int startingVertex = m_vertices.size();
@@ -501,6 +508,52 @@ void MeshBuilder::AddTexturedAABB(const AABB2& bounds, const Vector2& uvMins, co
 	AddQuadIndices(startingVertex + 3, startingVertex + 2, startingVertex + 0, startingVertex + 1);
 }
 
+//-----------------------------------------------------------------------------------
+void MeshBuilder::AddText2D(const Vector2& position, const std::string& asciiText, float scale, const RGBA& tint /*= RGBA::WHITE*/, bool drawShadow /*= false*/, const BitmapFont* font /*= nullptr*/)
+{
+	if (asciiText.empty())
+	{
+		return;
+	}
+	if (font == nullptr)
+	{
+		font = Renderer::instance->m_defaultFont;
+	}
+	int stringLength = asciiText.size();
+	Vector2 cursorPosition = position + (Vector2::UNIT_Y * (float)font->m_maxHeight * scale);
+	const Glyph* previousGlyph = nullptr;
+	for (int i = 0; i < stringLength; i++)
+	{
+		unsigned char currentCharacter = asciiText[i];
+		const Glyph* glyph = font->GetGlyph(currentCharacter);
+		float glyphWidth = static_cast<float>(glyph->width) * scale;
+		float glyphHeight = static_cast<float>(glyph->height) * scale;
+
+		if (previousGlyph)
+		{
+			const Vector2 kerning = font->GetKerning(*previousGlyph, *glyph);
+			cursorPosition += (kerning * scale);
+		}
+		Vector2 offset = Vector2(glyph->xOffset * scale, -glyph->yOffset * scale);
+		Vector2 topRight = cursorPosition + offset + Vector2(glyphWidth, 0.0f);
+		Vector2 bottomLeft = cursorPosition + offset - Vector2(0.0f, glyphHeight);
+		AABB2 quadBounds = AABB2(bottomLeft, topRight);
+		AABB2 glyphBounds = font->GetTexCoordsForGlyph(*glyph);
+		if (drawShadow)
+		{
+			float shadowWidthOffset = glyphWidth / 10.0f;
+			float shadowHeightOffset = glyphHeight / -10.0f;
+			Vector2 shadowOffset = Vector2(shadowWidthOffset, shadowHeightOffset);
+			AABB2 shadowBounds = AABB2(bottomLeft + shadowOffset, topRight + shadowOffset);
+			this->AddTexturedAABB(shadowBounds, glyphBounds.mins, glyphBounds.maxs, RGBA::BLACK);
+		}
+		this->AddTexturedAABB(quadBounds, glyphBounds.mins, glyphBounds.maxs, tint);
+		cursorPosition.x += glyph->xAdvance * scale;
+		previousGlyph = glyph;
+	}
+}
+
+//-----------------------------------------------------------------------------------
 void MeshBuilder::AddIndex(int index)
 {
 	m_indices.push_back(index);
