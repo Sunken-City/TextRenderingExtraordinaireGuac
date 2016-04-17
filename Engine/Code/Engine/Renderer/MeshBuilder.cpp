@@ -508,6 +508,30 @@ void MeshBuilder::AddTexturedAABB(const AABB2& bounds, const Vector2& uvMins, co
 	AddQuadIndices(startingVertex + 3, startingVertex + 2, startingVertex + 0, startingVertex + 1);
 }
 
+
+//-----------------------------------------------------------------------------------
+void MeshBuilder::AddGlyph(const Vector3& bottomLeft, const Vector3& up, const Vector3& right, float upExtents, float rightExtents, const Vector2& uvMins, const Vector2& uvMaxs, const RGBA& color)
+{
+	int startingVertex = m_vertices.size();
+	Vector3 topLeft = bottomLeft + (up * upExtents);
+	Vector3 bottomRight = bottomLeft + (right * rightExtents);
+	Vector3 topRight = topLeft + bottomRight - bottomLeft;
+	SetColor(color);
+	SetUV(uvMins);
+	SetNormalizedGlyphCoords(Vector2::ZERO);
+	AddVertex(bottomLeft);
+	SetUV(Vector2(uvMaxs.x, uvMins.y));
+	SetNormalizedGlyphCoords(Vector2::UNIT_X);
+	AddVertex(bottomRight);
+	SetUV(uvMaxs);
+	SetNormalizedGlyphCoords(Vector2::ONE);
+	AddVertex(topRight);
+	SetUV(Vector2(uvMins.x, uvMaxs.y));
+	SetNormalizedGlyphCoords(Vector2::UNIT_Y);
+	AddVertex(topLeft);
+	AddQuadIndices(startingVertex + 3, startingVertex + 2, startingVertex + 0, startingVertex + 1);
+}
+
 //-----------------------------------------------------------------------------------
 void MeshBuilder::AddText2D(const Vector2& position, const std::string& asciiText, float scale, const RGBA& tint /*= RGBA::WHITE*/, bool drawShadow /*= false*/, const BitmapFont* font /*= nullptr*/)
 {
@@ -548,6 +572,52 @@ void MeshBuilder::AddText2D(const Vector2& position, const std::string& asciiTex
 			this->AddTexturedAABB(shadowBounds, glyphBounds.mins, glyphBounds.maxs, RGBA::BLACK);
 		}
 		this->AddTexturedAABB(quadBounds, glyphBounds.mins, glyphBounds.maxs, tint);
+		cursorPosition.x += glyph->xAdvance * scale;
+		previousGlyph = glyph;
+	}
+}
+
+//-----------------------------------------------------------------------------------
+void MeshBuilder::AddStringEffectFragment(const std::string& asciiText, const BitmapFont* font, float scale, float totalStringWidth, const Vector3& bottomLeft, const Vector3& up, const Vector3& right, float width, float height)
+{
+	if (asciiText.empty())
+	{
+		return;
+	}
+	if (font == nullptr)
+	{
+		font = Renderer::instance->m_defaultFont;
+	}
+	int stringLength = asciiText.size();
+	Vector3 cursorPosition = bottomLeft + (up * (float)font->m_maxHeight * scale);
+	const Glyph* previousGlyph = nullptr;
+	for (int i = 0; i < stringLength; i++)
+	{
+		unsigned char currentCharacter = asciiText[i];
+		const Glyph* glyph = font->GetGlyph(currentCharacter);
+		float glyphWidth = static_cast<float>(glyph->width) * scale;
+		float glyphHeight = static_cast<float>(glyph->height) * scale;
+
+		if (previousGlyph)
+		{
+			const Vector2 kerning = font->GetKerning(*previousGlyph, *glyph);
+			cursorPosition += (kerning * scale);
+		}
+		Vector3 offset = (right * (glyph->xOffset * scale)) + (up * (-glyph->yOffset * scale));
+		Vector3 topRight = cursorPosition + offset + (right * (glyphWidth));
+		Vector3 bottomLeft = cursorPosition + offset - (up * glyphHeight);
+		//AABB2 quadBounds = AABB2(bottomLeft, topRight);
+		AABB2 glyphBounds = font->GetTexCoordsForGlyph(*glyph);
+		if (drawShadow)
+		{
+			float shadowWidthOffset = glyphWidth / 10.0f;
+			float shadowHeightOffset = glyphHeight / -10.0f;
+			Vector3 shadowOffset = (right * shadowWidthOffset) + (up * shadowHeightOffset);
+			//Vector2 shadowOffset = Vector2(shadowWidthOffset, shadowHeightOffset);
+			//AABB2 shadowBounds = AABB2(bottomLeft + shadowOffset, topRight + shadowOffset);
+			this->AddGlyph(bottomLeft, up, right, shadowHeightOffset, shadowWidthOffset, glyphBounds.mins, glyphBounds.maxs, RGBA::BLACK);
+		}
+		this->AddGlyph(bottomLeft, up, right, (glyph->xOffset * scale), (-glyph->yOffset * scale), glyphBounds.mins, glyphBounds.maxs, tint);
 		cursorPosition.x += glyph->xAdvance * scale;
 		previousGlyph = glyph;
 	}

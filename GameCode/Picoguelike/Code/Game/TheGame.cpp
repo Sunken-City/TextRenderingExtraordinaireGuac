@@ -255,9 +255,9 @@ void TheGame::RenderMainMenu()
 	{
 		MeshBuilder builder;
 		BitmapFont* bmFont = BitmapFont::CreateOrGetFontFromGlyphSheet("Runescape");
-		builder.AddText2D(Vector2(450, 600), "Picougelike", 7.0f, RGBA::VAPORWAVE, true, bmFont);
-		builder.AddText2D(Vector2(450, 300), "New Game (N)", 5.0f, RGBA::CYAN, true, bmFont);
-		builder.AddText2D(Vector2(450, 150), "Quit (Q)", 5.0f, RGBA::CYAN, true, bmFont);
+		builder.AddStringEffectFragment("Picougelike", bmFont, 7.0f, 5.0f, Vector3(450.0f, 600.0f, 0.0f), Vector3::UP, Vector3::RIGHT,);
+		builder.AddStringEffectFragment(Vector2(450, 300), "New Game (N)", 5.0f, RGBA::CYAN, true, bmFont);
+		builder.AddStringEffectFragment(Vector2(450, 150), "Quit (Q)", 5.0f, RGBA::CYAN, true, bmFont);
 		m_mainMenuText = new MeshRenderer(new Mesh(), bmFont->GetMaterial());
 		builder.CopyToMesh(m_mainMenuText->m_mesh, Vertex_TextPCT::Copy, sizeof(Vertex_TextPCT), Vertex_TextPCT::BindMeshToVAO);
 	}
