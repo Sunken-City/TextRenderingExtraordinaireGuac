@@ -20,8 +20,13 @@ out vec2 passNormalizedStringPosition;
 void main()
 {
 	passUV0 = inUV0;
-	passNormalizedGlyphPosition = inNormalizedGlyphPosition;
-	passNormalizedStringPosition = inNormalizedStringPosition;
-	vec3 pos = 
-	gl_Position = inPosition;
+	//passNormalizedGlyphPosition = inNormalizedGlyphPosition;
+	//passNormalizedStringPosition = inNormalizedStringPosition;
+	vec3 pos = inPosition;
+	//pos += sin(gTime) * gWave * gUpVector;
+	//if (gShake)
+	//{
+	//	pos += sin(gTime * 10.f) * gRightVector;
+	//}
+	gl_Position = pos;
 }

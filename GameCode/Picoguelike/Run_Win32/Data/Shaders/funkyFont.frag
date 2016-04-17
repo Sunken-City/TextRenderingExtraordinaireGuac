@@ -11,7 +11,17 @@ in vec2 passUV0;
 in vec2 passNormalizedGlyphPosition;
 in vec2 passNormalizedStringPosition;
 
+out vec4 outColor;
+
 void main()
 {
-	
+	vec4 diffuse = texture(gDiffuseTexture, passUV0);
+	//if (gTime < passNormalizedStringPosition * 10.f)
+	//{
+	//	outColor = vec4(0.f);
+	//}
+	//else
+	//{
+		outColor = diffuse;
+	//}
 }
