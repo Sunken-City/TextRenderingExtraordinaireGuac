@@ -14,6 +14,51 @@ StringEffectFragment::StringEffectFragment(const std::string& value)
 }
 
 //-----------------------------------------------------------------------------------------------
+static void ExtractLineReturns(std::vector<StringEffectFragment>& fragments)
+{
+	std::vector<StringEffectFragment> workingList;
+	std::swap(workingList, fragments);
+	for (StringEffectFragment frag : workingList)
+	{
+		std::vector<std::string>* splitString =  SplitString(frag.m_value, 2, "\r", "\t");
+		if (splitString->size() > 1)
+		{
+			for (size_t i = 0; i < splitString->size(); i++)
+			{
+				if (splitString->at(i).find("\n") != std::string::npos)
+				{
+					if (i != 0)
+					{
+						TrimEnd(splitString->at(i - 1));
+					}
+					if (i != splitString->size() - 1)
+					{
+						TrimBeginning(splitString->at(i + 1));
+					}
+					Trim(splitString->at(i));
+
+				}
+			}
+			for (const std::string& s : *splitString)
+			{
+				if (s == "")
+				{
+					continue;
+				}
+				StringEffectFragment tempFrag(s);
+				tempFrag.m_effect = frag.m_effect;
+				fragments.push_back(tempFrag);
+			}
+		}
+		else
+		{
+			fragments.push_back(frag);
+		}
+		delete splitString;
+	}
+}
+
+//-----------------------------------------------------------------------------------------------
 std::vector<StringEffectFragment> StringEffectFragment::GetStringFragmentsFromXML(const struct XMLNode& node)
 {
 	std::string inString = XMLUtils::GetAttribute(node, "value");
@@ -56,6 +101,8 @@ std::vector<StringEffectFragment> StringEffectFragment::GetStringFragmentsFromXM
 	}
 
 	delete fragmentValues;
+
+	ExtractLineReturns(result);
 
 	return result;
 }

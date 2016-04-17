@@ -64,7 +64,8 @@
     <ClCompile Include="Renderer\Texture.cpp" />
     <ClCompile Include="Renderer\TheRenderer.cpp" />
     <ClCompile Include="Renderer\Vertex.cpp" />
-    <ClCompile Include="TextRendering\StringFragment.cpp" />
+    <ClCompile Include="TextRendering\StringEffectFragment.cpp" />
+    <ClCompile Include="TextRendering\TextBox.cpp" />
     <ClCompile Include="TextRendering\TextEffect.cpp" />
     <ClCompile Include="Time\Time.cpp" />
     <ClCompile Include="Tools\fbx.cpp" />
@@ -116,7 +117,8 @@
     <ClInclude Include="Renderer\Texture.hpp" />
     <ClInclude Include="Renderer\TheRenderer.hpp" />
     <ClInclude Include="Renderer\Vertex.hpp" />
-    <ClInclude Include="TextRendering\StringFragment.hpp" />
+    <ClInclude Include="TextRendering\StringEffectFragment.hpp" />
+    <ClInclude Include="TextRendering\TextBox.hpp" />
     <ClInclude Include="TextRendering\TextEffect.hpp" />
     <ClInclude Include="Time\Time.hpp" />
     <ClInclude Include="Tools\fbx.hpp" />

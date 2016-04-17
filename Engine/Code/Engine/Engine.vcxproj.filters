@@ -179,10 +179,13 @@
     <ClCompile Include="Renderer\Skeleton.cpp">
       <Filter>Engine\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="TextRendering\StringFragment.cpp">
+    <ClCompile Include="TextRendering\TextEffect.cpp">
       <Filter>Engine\TextRendering</Filter>
     </ClCompile>
-    <ClCompile Include="TextRendering\TextEffect.cpp">
+    <ClCompile Include="TextRendering\StringEffectFragment.cpp">
+      <Filter>Engine\TextRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRendering\TextBox.cpp">
       <Filter>Engine\TextRendering</Filter>
     </ClCompile>
   </ItemGroup>
@@ -331,10 +334,13 @@
     <ClInclude Include="Renderer\Skeleton.hpp">
       <Filter>Engine\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="TextRendering\StringFragment.hpp">
+    <ClInclude Include="TextRendering\TextEffect.hpp">
       <Filter>Engine\TextRendering</Filter>
     </ClInclude>
-    <ClInclude Include="TextRendering\TextEffect.hpp">
+    <ClInclude Include="TextRendering\StringEffectFragment.hpp">
+      <Filter>Engine\TextRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRendering\TextBox.hpp">
       <Filter>Engine\TextRendering</Filter>
     </ClInclude>
   </ItemGroup>

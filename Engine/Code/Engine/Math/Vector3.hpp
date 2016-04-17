@@ -67,6 +67,14 @@ inline Vector3 operator*(Vector3 lhs, const float& scalarConstant)
 }
 
 //----------------------------------------------------------------------
+inline Vector3 operator*(const float& scalarConstant, Vector3 rhs)
+{
+	rhs *= scalarConstant;
+	return rhs;
+}
+
+
+//----------------------------------------------------------------------
 inline bool operator==(const Vector3& lhs, const Vector3& rhs)
 { 
 	return (lhs.x == rhs.x) && (lhs.y == rhs.y) && (lhs.z == rhs.z); 

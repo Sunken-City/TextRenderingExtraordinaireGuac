@@ -163,3 +163,47 @@ RGBA GetColorFromHexString(const std::string& hexString)
 		ERROR_AND_DIE(errString);
 	}
 }
+
+
+//-----------------------------------------------------------------------------------------------
+void TrimBeginning(std::string& toTrim)
+{
+	while (!toTrim.empty())
+	{
+		char firstChar = toTrim[0];
+		if (firstChar != ' ')
+		{
+			return;
+		}
+		else
+		{
+			toTrim = toTrim.substr(1);
+		}
+	}
+}
+
+
+//-----------------------------------------------------------------------------------------------
+void TrimEnd(std::string& toTrim)
+{
+	while (!toTrim.empty())
+	{
+		char lastChar = toTrim[toTrim.size() - 1];
+		if (lastChar != ' ')
+		{
+			return;
+		}
+		else
+		{
+			toTrim = toTrim.substr(0, toTrim.size() - 1);
+		}
+	}
+}
+
+
+//-----------------------------------------------------------------------------------------------
+void Trim(std::string& toTrim)
+{
+	TrimBeginning(toTrim);
+	TrimEnd(toTrim);
+}

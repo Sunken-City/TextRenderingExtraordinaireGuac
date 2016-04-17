@@ -11,6 +11,8 @@ class StringEffectFragment
 public:
 	StringEffectFragment(const std::string& value);
 	static std::vector<StringEffectFragment> GetStringFragmentsFromXML(const struct XMLNode& node);
+
+private:
 	static TextEffect GetTextEffect(const struct XMLNode& node);
 
 public:
