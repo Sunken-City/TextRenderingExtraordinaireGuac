@@ -582,7 +582,8 @@ void MeshBuilder::AddText2D(const Vector2& position, const std::string& asciiTex
 }
 
 //-----------------------------------------------------------------------------------
-void MeshBuilder::AddStringEffectFragment(const std::string& asciiText, const BitmapFont* font, float scale, float totalStringWidth, const Vector3& bottomLeft, const Vector3& up, const Vector3& right, float width, float height)
+void MeshBuilder::AddStringEffectFragment(const std::string& asciiText, const BitmapFont* font, float scale, float totalStringWidth, float totalWidthUpToNow,
+	const Vector3& bottomLeft, const Vector3& up, const Vector3& right, float width, float height)
 {
 	if (asciiText.empty())
 	{
