@@ -1,4 +1,4 @@
-#include "Engine/TextRendering/StringFragment.hpp"
+#include "Engine/TextRendering/StringEffectFragment.hpp"
 #include "Engine/Input/XMLUtils.hpp"
 #include "Engine/Core/StringUtils.hpp"
 #include "Engine/Core/ErrorWarningAssert.hpp"
@@ -6,7 +6,7 @@
 
 
 //-----------------------------------------------------------------------------------------------
-StringFragment::StringFragment(const std::string& value)
+StringEffectFragment::StringEffectFragment(const std::string& value)
 	: m_value(value)
 	, m_effect()
 {
@@ -15,7 +15,7 @@ StringFragment::StringFragment(const std::string& value)
 
 
 //-----------------------------------------------------------------------------------------------
-std::vector<StringFragment> StringFragment::GetStringFragmentsFromXML(const struct XMLNode& node)
+std::vector<StringEffectFragment> StringEffectFragment::GetStringFragmentsFromXML(const struct XMLNode& node)
 {
 	std::string inString = XMLUtils::GetAttribute(node, "value");
 	std::vector<std::string>* fragmentValues = SplitString(inString, 2, "[[", "]]");
@@ -27,7 +27,7 @@ std::vector<StringFragment> StringFragment::GetStringFragmentsFromXML(const stru
 	GUARANTEE_OR_DIE(effectNodeCount == effectNodeCountExpected, 
 		Stringf("Affected fragment and effect node count mismatch.  The input string:\n%s\nexpects %i effect nodes", inString.c_str(), effectNodeCountExpected));
 
-	std::vector<StringFragment> result;
+	std::vector<StringEffectFragment> result;
 	int childNodeSearchPointer = 0;
 	TextEffect defaultTextEffects = GetTextEffect(node);
 	for (size_t i = 0; i < fragmentValues->size(); i++)
@@ -42,7 +42,7 @@ std::vector<StringFragment> StringFragment::GetStringFragmentsFromXML(const stru
 			}
 			continue;
 		}
-		StringFragment currFragment(fragmentValues->at(i));
+		StringEffectFragment currFragment(fragmentValues->at(i));
 		if ((i & 1) == 0)
 		{
 			//This is evenly indexed, which indicates that it lies outside of effect specifiers
@@ -61,7 +61,7 @@ std::vector<StringFragment> StringFragment::GetStringFragmentsFromXML(const stru
 
 
 //Long and boring effect extractor---------------------------------------------------------------
-TextEffect StringFragment::GetTextEffect(const struct XMLNode& node)
+TextEffect StringEffectFragment::GetTextEffect(const struct XMLNode& node)
 {
 	TextEffect result;
 	std::string wave = XMLUtils::GetAttribute(node, "wave");

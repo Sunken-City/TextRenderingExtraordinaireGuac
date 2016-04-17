@@ -6,11 +6,11 @@
 
 
 //-----------------------------------------------------------------------------------------------
-class StringFragment
+class StringEffectFragment
 {
 public:
-	StringFragment(const std::string& value);
-	static std::vector<StringFragment> GetStringFragmentsFromXML(const struct XMLNode& node);
+	StringEffectFragment(const std::string& value);
+	static std::vector<StringEffectFragment> GetStringFragmentsFromXML(const struct XMLNode& node);
 	static TextEffect GetTextEffect(const struct XMLNode& node);
 
 public:
