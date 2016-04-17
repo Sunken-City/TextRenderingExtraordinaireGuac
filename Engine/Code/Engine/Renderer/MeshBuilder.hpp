@@ -52,6 +52,7 @@ public:
 	void AddQuadIndices(unsigned int tlIndex, unsigned int trIndex, unsigned int blIndex, unsigned int brIndex);
 	void AddQuadIndices();
 	void AddTexturedAABB(const AABB2& bounds, const Vector2& uvMins, const Vector2& uvMaxs, const RGBA& color);
+	void AddText2D(const Vector2& position, const std::string& asciiText, float scale, const RGBA& tint = RGBA::WHITE, bool drawShadow = false, const BitmapFont* font = nullptr);
 	void BuildQuad(const Vector3& initialPosition, const Vector3& right, const Vector3& up, float startX, float endX, float startY, float endY, float startU = 0.0f, float endU = 1.0f, float startV = 0.0f, float endV = 1.0f);
 	void BuildPlane(const Vector3& initialPosition, const Vector3& right, const Vector3& up, float startX, float endX, uint32_t xSections, float startY, float endY, uint32_t ySections);
 	void BuildPlaneFromFunc(const Vector3& initialPosition, const Vector3& right, const Vector3& up, float startX, float endX, uint32_t xSections, float startY, float endY, uint32_t ySections);
