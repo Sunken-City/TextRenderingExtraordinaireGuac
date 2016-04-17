@@ -165,5 +165,8 @@
     <Xml Include="..\..\Run_Win32\Data\XML\NPCs\Slimes.NPC.xml">
       <Filter>Data\NPCs</Filter>
     </Xml>
+    <Xml Include="..\..\..\..\..\..\..\pass2.xml">
+      <Filter>Data</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

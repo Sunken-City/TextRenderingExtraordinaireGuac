@@ -139,6 +139,7 @@
     <ClInclude Include="TheGame.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="..\..\..\..\..\..\..\pass2.xml" />
     <Xml Include="..\..\Run_Win32\Data\XML\Environments\Caves.Environment.xml">
       <SubType>Designer</SubType>
     </Xml>

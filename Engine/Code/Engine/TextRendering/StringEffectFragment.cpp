@@ -13,7 +13,6 @@ StringEffectFragment::StringEffectFragment(const std::string& value)
 	
 }
 
-
 //-----------------------------------------------------------------------------------------------
 std::vector<StringEffectFragment> StringEffectFragment::GetStringFragmentsFromXML(const struct XMLNode& node)
 {
@@ -55,6 +54,8 @@ std::vector<StringEffectFragment> StringEffectFragment::GetStringFragmentsFromXM
 
 		result.push_back(currFragment);
 	}
+
+	delete fragmentValues;
 
 	return result;
 }

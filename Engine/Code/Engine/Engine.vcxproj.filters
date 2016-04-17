@@ -33,6 +33,9 @@
     <Filter Include="ThirdParty\Parsers">
       <UniqueIdentifier>{d5623794-b229-462f-bc0a-69a30da49b02}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\TextRendering">
+      <UniqueIdentifier>{d372a83a-ef56-4116-b49a-c12ad2e02ac7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Math\Vector2.cpp">
@@ -175,6 +178,12 @@
     </ClCompile>
     <ClCompile Include="Renderer\Skeleton.cpp">
       <Filter>Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRendering\StringFragment.cpp">
+      <Filter>Engine\TextRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRendering\TextEffect.cpp">
+      <Filter>Engine\TextRendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -321,6 +330,12 @@
     </ClInclude>
     <ClInclude Include="Renderer\Skeleton.hpp">
       <Filter>Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRendering\StringFragment.hpp">
+      <Filter>Engine\TextRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRendering\TextEffect.hpp">
+      <Filter>Engine\TextRendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
