@@ -2,6 +2,7 @@
 #include "Engine/Input/XMLUtils.hpp"
 #include "Engine/Renderer/BitmapFont.hpp"
 #include "Engine/Core/StringUtils.hpp"
+#include "Engine/Renderer/MeshBuilder.hpp"
 
 #include <deque>
 
@@ -122,7 +123,22 @@ void TextBox::EvaluateLine(std::deque<StringEffectFragment>& currLine, std::dequ
 //-----------------------------------------------------------------------------------------------
 void TextBox::ConstructMeshes()
 {
-	throw std::logic_error("The method or operation is not implemented.");
+	float totalStringWidth = 0;
+	for (StringEffectFragment frag : m_fragments)
+	{
+		if (frag.m_value == "\n")
+		{
+			continue;
+		}
+
+		totalStringWidth += m_baseFont->CalcTextWidth(frag.m_value, m_scale);
+	}
+
+	MeshBuilder mb;
+	for (StringEffectFragment frag : m_fragments)
+	{
+		mb.AddStringEffectFragment(frag.m_value, m_baseFont, m_scale, totalStringWidth, m_bottomLeft, m_upVector, m_rightVector);
+	}
 }
 
 //-----------------------------------------------------------------------------------------------
