@@ -19,7 +19,7 @@ enum TextEffectType
 //-----------------------------------------------------------------------------------------------
 struct TextEffect
 {
-	float wave = 1.f;
+	float wave = 0.f;
 	bool shake = false;
 	float dilate = 0.f;
 	bool pop = false;

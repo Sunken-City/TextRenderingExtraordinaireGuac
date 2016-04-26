@@ -20,7 +20,7 @@ static void ExtractLineReturns(std::vector<StringEffectFragment>& fragments)
 	std::swap(workingList, fragments);
 	for (StringEffectFragment frag : workingList)
 	{
-		std::vector<std::string>* splitString =  SplitString(frag.m_value, 2, "\r", "\t");
+		std::vector<std::string>* splitString =  SplitStringOnMultipleDelimiters(frag.m_value, 2, "\r", "\t");
 		if (splitString->size() > 1)
 		{
 			for (size_t i = 0; i < splitString->size(); i++)
@@ -62,7 +62,7 @@ static void ExtractLineReturns(std::vector<StringEffectFragment>& fragments)
 std::vector<StringEffectFragment> StringEffectFragment::GetStringFragmentsFromXML(const struct XMLNode& node)
 {
 	std::string inString = XMLUtils::GetAttribute(node, "value");
-	std::vector<std::string>* fragmentValues = SplitString(inString, 2, "[[", "]]");
+	std::vector<std::string>* fragmentValues = SplitStringOnMultipleDelimiters(inString, 2, "[[", "]]");
 	int effectNodeCount = node.nChildNode();
 	int effectNodeCountExpected = fragmentValues->size() / 2;
 

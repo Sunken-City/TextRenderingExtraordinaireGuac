@@ -18,9 +18,18 @@ TextBox::TextBox(const Vector3& bottomLeft, const Vector3& upVector, const Vecto
 	, m_height(height)
 	, m_scale(scale)
 	, m_totalTimeSinceReset(0.f)
+    , m_renderBox(false)
+    , m_borderRenderer(nullptr)
+    //, m_backgroundRenderer(nullptr)
 {
 }
 
+
+TextBox::~TextBox()
+{
+    delete m_borderRenderer->m_mesh;
+    delete m_borderRenderer;
+}
 
 //-----------------------------------------------------------------------------------------------
 void TextBox::EvaluateLine(std::deque<StringEffectFragment>& currLine, std::deque<StringEffectFragment>& fragmentQueue)
@@ -177,7 +186,7 @@ void TextBox::ConstructMeshes()
 		mat->SetVec3Uniform("gRightVector", m_rightVector);
 		mat->SetDiffuseTexture(m_baseFont->GetTexture());
 		MeshRenderer* meshRenderer = new MeshRenderer(mesh, mat);
-		m_renderers.push_back(meshRenderer);
+		m_textRenderers.push_back(meshRenderer);
 		totalWidthUpToNow += m_baseFont->CalcTextWidth(frag.m_value, m_scale);
 		if (frag.m_value == "\n")
 		{
@@ -185,6 +194,17 @@ void TextBox::ConstructMeshes()
 			totalWidthUpToNow = 0.f;
 		}
 	}
+
+    //Add mesh renderers for the text box
+    MeshBuilder builder;
+    Vector3 br = m_bottomLeft + (m_rightVector * m_width);
+    Vector3 tl = m_bottomLeft + (m_upVector * m_height);
+    builder.AddLine(m_bottomLeft, br);
+    builder.AddLine(m_bottomLeft, tl);
+    builder.AddLine(tl, br + (m_upVector * m_height));
+    builder.AddLine(br, br + (m_upVector * m_height));
+    m_borderRenderer = new MeshRenderer(new Mesh(), Renderer::instance->m_defaultMaterial);
+    builder.CopyToMesh(m_borderRenderer->m_mesh, &Vertex_PCT::Copy, sizeof(Vertex_PCT), &Vertex_PCT::BindMeshToVAO);
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -249,7 +269,7 @@ void TextBox::SetFromXMLNode(const struct XMLNode& node)
 void TextBox::Update(float deltaSeconds)
 {
 	m_totalTimeSinceReset += deltaSeconds;
-	for (MeshRenderer* mr : m_renderers)
+	for (MeshRenderer* mr : m_textRenderers)
 	{
 		mr->m_material->SetFloatUniform("gTime", m_totalTimeSinceReset);
 	}
@@ -258,7 +278,11 @@ void TextBox::Update(float deltaSeconds)
 //-----------------------------------------------------------------------------------------------
 void TextBox::Render() const
 {
-	for (const MeshRenderer* mr : m_renderers)
+    if (m_renderBox)
+    {
+        m_borderRenderer->Render();
+    }
+	for (const MeshRenderer* mr : m_textRenderers)
 	{
 		mr->Render();
 	}
