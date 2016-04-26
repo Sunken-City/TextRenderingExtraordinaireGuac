@@ -257,7 +257,7 @@ void TheGame::RenderMainMenu()
 {
 	if (tb == nullptr)
 	{
-		tb = new TextBox(Vector3(100.f, 300.f, 0.f), Vector3::UP, Vector3::RIGHT, 300.f, 150.f, 4.f, BitmapFont::CreateOrGetFontFromGlyphSheet("Runescape"));
+		tb = new TextBox(Vector3(100.f, 300.f, 0.f), Vector3::UP, Vector3::RIGHT, 300.f, 150.f, 1.f, BitmapFont::CreateOrGetFontFromGlyphSheet("Runescape"));
 		tb->SetFromXMLNode(XMLNode::parseFile("D:/pass2.xml").getChildNode());
 		tb->ResetAnimation();
 		//MeshBuilder builder;

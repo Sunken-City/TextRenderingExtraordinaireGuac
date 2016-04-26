@@ -32,7 +32,7 @@ void main()
 	vec4 pos = vec4(inPosition, 1.f);
 	pos = pos * gModel * gView * gProj;
 	vec3 changePos = pos.xyz;
-	changePos += sin(gTime * 5.f + inNormalizedStringPosition.x) * gWave * .025f * gUpVector;
+	changePos += sin(gTime * 5.f + inNormalizedFragPosition) * gWave * .01f * gUpVector;
 	if (gShake)
 	{
 		changePos += sin(gTime * 40.f) * .01f * gRightVector;
