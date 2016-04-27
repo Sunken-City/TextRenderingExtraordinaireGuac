@@ -60,6 +60,10 @@ public:
 	static const RGBA MAROON;
 	static const RGBA GRAY;
 	static const RGBA VAPORWAVE;
+	static const RGBA DEADBEEF;
+	static const RGBA FEEDFACE;
+	static const RGBA DISEASED;
+	static const RGBA BADDAD;
 	static const int SHIFT_RED = 6 * 4;
 	static const int SHIFT_GREEN = 4 * 4;
 	static const int SHIFT_BLUE = 2 * 4;

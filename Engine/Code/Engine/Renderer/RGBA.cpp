@@ -23,6 +23,10 @@ const RGBA RGBA::SADDLE_BROWN(0x8B4513FF);
 const RGBA RGBA::MAROON(0x800000FF);
 const RGBA RGBA::GRAY(0x808080FF);
 const RGBA RGBA::VAPORWAVE(0xFF819CFF);
+const RGBA RGBA::DEADBEEF(0xDEADBEEF);
+const RGBA RGBA::FEEDFACE(0xFEEDFACE);
+const RGBA RGBA::DISEASED(0xD15EA5ED);
+const RGBA RGBA::BADDAD(0xBADDADFF);
 
 //-----------------------------------------------------------------------------------
 RGBA::RGBA() : red(0x00), green(0x00), blue(0x00), alpha(0xFF)

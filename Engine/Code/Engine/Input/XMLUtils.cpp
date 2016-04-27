@@ -1,89 +1,93 @@
 #include "Engine/Input/XMLUtils.hpp"
 
+//-----------------------------------------------------------------------------------
 XMLNode XMLUtils::GetChildNodeAtPosition(const XMLNode& parentNode, const std::string nodeName, int position /*= NULL*/)
 {
-	return parentNode.getChildNode(nodeName.c_str(), position);
+    return parentNode.getChildNode(nodeName.c_str(), position);
 }
 
+//-----------------------------------------------------------------------------------
 XMLNode XMLUtils::OpenXMLDocument(const std::string& path)
 {
-	return XMLNode::openFileHelper(path.c_str());
+    return XMLNode::openFileHelper(path.c_str());
 }
 
+//-----------------------------------------------------------------------------------
+XMLNode XMLUtils::ParseXMLFromString(const std::string& string)
+{
+    return XMLNode::parseString(string.c_str());
+}
+
+//-----------------------------------------------------------------------------------
 std::string XMLUtils::GetAttribute(const XMLNode& node, const std::string& attributeName)
 {
-	const char* attrVal = node.getAttribute(attributeName.c_str());
-	if (!attrVal)
-	{
-		return "";
-	}
+    const char* attrVal = node.getAttribute(attributeName.c_str());
+    if (!attrVal)
+    {
+        return "";
+    }
 
-	return std::string(attrVal);
+    return std::string(attrVal);
 }
 
+//-----------------------------------------------------------------------------------
 std::vector<XMLNode> XMLUtils::GetChildren(const XMLNode& parent)
 {
-	int childIndex = 0;
-	XMLNode childNode = parent.getChildNode(childIndex);
-	std::vector<XMLNode> children;
-	while (!childNode.IsContentEmpty())
-	{
-		children.push_back(childNode);
-		childNode = parent.getChildNode(++childIndex);
-	}
-	children.push_back(childNode);
-	return children;
+    int childIndex = 0;
+    XMLNode childNode = parent.getChildNode(childIndex);
+    std::vector<XMLNode> children;
+    while (!childNode.isEmpty())
+    {
+        children.push_back(childNode);
+        childNode = parent.getChildNode(++childIndex);
+    }
+    children.push_back(childNode);
+    return children;
 }
-
-
-
 
 ///----------------------------------------------------------
 /// Destroys all the allocated data for an XMLNode tree. 
 ///----------------------------------------------------------
 void XMLUtils::DestroyXMLDocument(XMLNode& xmlDocumentToDestroy)
 {
-	while (!xmlDocumentToDestroy.getParentNode().isEmpty())
-	{
-		xmlDocumentToDestroy = xmlDocumentToDestroy.getParentNode();
-	}
+    while (!xmlDocumentToDestroy.getParentNode().isEmpty())
+    {
+        xmlDocumentToDestroy = xmlDocumentToDestroy.getParentNode();
+    }
 
-	xmlDocumentToDestroy.deleteNodeContent();
+    xmlDocumentToDestroy.deleteNodeContent();
 }
-
-
 
 ///----------------------------------------------------------
 /// 
 ///----------------------------------------------------------
 std::string XMLUtils::GetXMLErrorDescForErrorCode(XMLError xmlErrorCode)
 {
-	switch (xmlErrorCode)
-	{
-	case eXMLErrorNone:
-	case eXMLErrorMissingEndTag:					return "MissingEndTag";
-	case eXMLErrorNoXMLTagFound:					return "NoXMLTagFound";
-	case eXMLErrorEmpty:							return "Empty";
-	case eXMLErrorMissingTagName:					return "MissingTagName";
-	case eXMLErrorMissingEndTagName:				return "MissingEndTagName";
-	case eXMLErrorUnmatchedEndTag:					return "UnmatchedEndTag";
-	case eXMLErrorUnmatchedEndClearTag:				return "UnmatchedEndClearTag";
-	case eXMLErrorUnexpectedToken:					return "UnexpectedToken";
-	case eXMLErrorNoElements:						return "NoElements";
-	case eXMLErrorFileNotFound:						return "FileNotFound";
-	case eXMLErrorFirstTagNotFound:					return "FirstTagNotFound";
-	case eXMLErrorUnknownCharacterEntity:			return "UnknownCharacterEntity";
-	case eXMLErrorCharConversionError:				return "CharConversionError";
-	case eXMLErrorCannotOpenWriteFile:				return "CannotOpenWriteFile";
-	case eXMLErrorCannotWriteFile:					return "CannotWriteFile";
-	case eXMLErrorBase64DataSizeIsNotMultipleOf4:	return "Base64DataSizeIsNotMultipleOf4";
-	case eXMLErrorBase64DecodeIllegalCharacter:		return "Base64DecodeIllegalCharacter";
-	case eXMLErrorBase64DecodeTruncatedData:		return "Base64DecodeTruncatedData";
-	case eXMLErrorBase64DecodeBufferTooSmall:		return "Base64DecodeBufferTooSmall";
-	default:										return "Unknown XML error code";
-	};
+    switch (xmlErrorCode)
+    {
+    case eXMLErrorNone:
+    case eXMLErrorMissingEndTag:					return "MissingEndTag";
+    case eXMLErrorNoXMLTagFound:					return "NoXMLTagFound";
+    case eXMLErrorEmpty:							return "Empty";
+    case eXMLErrorMissingTagName:					return "MissingTagName";
+    case eXMLErrorMissingEndTagName:				return "MissingEndTagName";
+    case eXMLErrorUnmatchedEndTag:					return "UnmatchedEndTag";
+    case eXMLErrorUnmatchedEndClearTag:				return "UnmatchedEndClearTag";
+    case eXMLErrorUnexpectedToken:					return "UnexpectedToken";
+    case eXMLErrorNoElements:						return "NoElements";
+    case eXMLErrorFileNotFound:						return "FileNotFound";
+    case eXMLErrorFirstTagNotFound:					return "FirstTagNotFound";
+    case eXMLErrorUnknownCharacterEntity:			return "UnknownCharacterEntity";
+    case eXMLErrorCharConversionError:				return "CharConversionError";
+    case eXMLErrorCannotOpenWriteFile:				return "CannotOpenWriteFile";
+    case eXMLErrorCannotWriteFile:					return "CannotWriteFile";
+    case eXMLErrorBase64DataSizeIsNotMultipleOf4:	return "Base64DataSizeIsNotMultipleOf4";
+    case eXMLErrorBase64DecodeIllegalCharacter:		return "Base64DecodeIllegalCharacter";
+    case eXMLErrorBase64DecodeTruncatedData:		return "Base64DecodeTruncatedData";
+    case eXMLErrorBase64DecodeBufferTooSmall:		return "Base64DecodeBufferTooSmall";
+    default:										return "Unknown XML error code";
+    };
 }
-
 
 ///------------------------------------------------------------------
 /// Retrieves the attribute as a string, returns empty string if not found.
@@ -117,35 +121,35 @@ std::string XMLUtils::GetXMLErrorDescForErrorCode(XMLError xmlErrorCode)
 ///------------------------------------------------------------------
 std::string XMLUtils::GetXMLAttributeAsString(const XMLNode& node, const std::string& attributeName, bool& wasAttributePresent_out)
 {
-	std::string	attributeValue;
-	wasAttributePresent_out = false;
+    std::string	attributeValue;
+    wasAttributePresent_out = false;
 
-	// First try to get it as an attribute with that property name
-	if (node.getAttribute(attributeName.c_str()))
-	{
-		attributeValue = node.getAttribute(attributeName.c_str());
-		wasAttributePresent_out = true;
-		node.markUsed();
-	}
-	else
-	{
-		// Second try to get it as a child node with that name
-		XMLNode		childNode = node.getChildNode(attributeName.c_str());
-		if (childNode.hasText())
-		{
-			attributeValue = childNode.getText();
-			wasAttributePresent_out = true;
-			node.markUsed();
-		}
-		// Third, try to get it as an attribute named "Value" of the child node with that property name
-		else if (!childNode.isEmpty())
-		{
-			attributeValue = GetXMLAttributeAsString(childNode, "value", wasAttributePresent_out);
-			node.markUsed();
-		}
-	}
+    // First try to get it as an attribute with that property name
+    if (node.getAttribute(attributeName.c_str()))
+    {
+        attributeValue = node.getAttribute(attributeName.c_str());
+        wasAttributePresent_out = true;
+        node.markUsed();
+    }
+    else
+    {
+        // Second try to get it as a child node with that name
+        XMLNode		childNode = node.getChildNode(attributeName.c_str());
+        if (childNode.hasText())
+        {
+            attributeValue = childNode.getText();
+            wasAttributePresent_out = true;
+            node.markUsed();
+        }
+        // Third, try to get it as an attribute named "Value" of the child node with that property name
+        else if (!childNode.isEmpty())
+        {
+            attributeValue = GetXMLAttributeAsString(childNode, "value", wasAttributePresent_out);
+            node.markUsed();
+        }
+    }
 
-	return attributeValue;
+    return attributeValue;
 }
 
 
@@ -157,16 +161,16 @@ std::string XMLUtils::GetXMLAttributeAsString(const XMLNode& node, const std::st
 ///----------------------------------------------------------
 bool XMLUtils::GetXMLNodeByNameSearchingFromPosition(const XMLNode& parentNode, const std::string& childName, int& position_inout, XMLNode& childNode_out)
 {
-	bool wasFound = false;
-	parentNode.markUsed();
+    bool wasFound = false;
+    parentNode.markUsed();
 
-	childNode_out = parentNode.getChildNode(childName.c_str(), &position_inout);
+    childNode_out = parentNode.getChildNode(childName.c_str(), &position_inout);
 
-	if (!childNode_out.isEmpty())
-	{
-		childNode_out.markUsed();
-		wasFound = true;
-	}
+    if (!childNode_out.isEmpty())
+    {
+        childNode_out.markUsed();
+        wasFound = true;
+    }
 
-	return wasFound;
+    return wasFound;
 }

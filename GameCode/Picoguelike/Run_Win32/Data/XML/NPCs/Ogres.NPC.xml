@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NPCBlueprints>
+  <NPCBlueprint name="Ogre" faction="Ogre" glyph="O" color="0,255,0">
+    <Behaviors>
+      <Wander/>
+      <Chase/>
+      <MeleeAttack/>
+    </Behaviors>
+  </NPCBlueprint>
+  <NPCBlueprint name="Ogre Magi" glyph="O" color="180,0,190">
+    <Faction name="Ogre" loves="Undead"/>
+    <Behaviors>
+      <Wander/>
+      <Chase/>
+      <MeleeAttack/>
+    </Behaviors>
+  </NPCBlueprint>
+</NPCBlueprints>

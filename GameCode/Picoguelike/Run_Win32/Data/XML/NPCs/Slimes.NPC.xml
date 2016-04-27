@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <NPCBlueprints>
   
-  <NPCBlueprint name="Green Slime"  maxHealth="10" damage="2" glyph="s" color="0x00FF00FF">
+  <NPCBlueprint name="Green Slime"  maxHealth="200" damage="1" glyph="s" color="0x00FF00FF">
     <Behaviors>
       <Wander chanceToRest=".5" chanceToGoStraight=".3"/>
+      <Split chanceToSplit="0.5"/>
     </Behaviors>
   </NPCBlueprint>
 
   <NPCBlueprint name="Blue Slime"  maxHealth="10" damage="2" glyph="s" color="0x0000FFFF">
     <Behaviors>
-      <Wander chanceToRest=".5" chanceToGoStraight=".3"/>
+      <Wander chanceToRest=".4" chanceToGoStraight=".4"/>
+      <Split chanceToSplit="0.05"/>
+    </Behaviors>
+  </NPCBlueprint>
+
+  <NPCBlueprint name="Red Slime"  maxHealth="5" damage="4" glyph="s" color="0xFF0000FF">
+    <Behaviors>
+      <Wander chanceToRest=".4" chanceToGoStraight=".4"/>
+      <Split chanceToSplit="0.01"/>
     </Behaviors>
   </NPCBlueprint>
 

@@ -1,21 +1,24 @@
 #include "Game/Map/Cell.hpp"
+#include "Game/Entities/Entity.hpp"
 
 //-----------------------------------------------------------------------------------
 Cell::Cell()
-	: m_position(Vector2Int::ZERO)
-	, m_type(Type::AIR)
-	, m_isVisible(false)
-	, m_knownAs(' ')
+    : m_position(Vector2Int::ZERO)
+    , m_type(Type::AIR)
+    , m_isVisible(false)
+    , m_knownAs(' ')
+    , m_blockingEntity(nullptr)
 {
 
 }
 
 //-----------------------------------------------------------------------------------
 Cell::Cell(const Vector2Int& position, Type type)
-	: m_position(position)
-	, m_type(type)
-	, m_isVisible(false)
-	, m_knownAs(' ')
+    : m_position(position)
+    , m_type(type)
+    , m_isVisible(false)
+    , m_knownAs(' ')
+    , m_blockingEntity(nullptr)
 {
 
 }
@@ -24,4 +27,9 @@ Cell::Cell(const Vector2Int& position, Type type)
 Cell::~Cell()
 {
 
+}
+
+bool Cell::IsOccupied()
+{
+    return m_blockingEntity == nullptr;
 }

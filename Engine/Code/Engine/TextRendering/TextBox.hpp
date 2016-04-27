@@ -2,15 +2,22 @@
 
 #include "Engine/Math/Vector3.hpp"
 #include "Engine/TextRendering/StringEffectFragment.hpp"
-
 #include <deque>
 
+class MeshRenderer;
 
 //-----------------------------------------------------------------------------------------------
 class TextBox
 {
 public:
-    TextBox(const Vector3& bottomLeft, const Vector3& upVector, const Vector3& rightVector, float width, float height, float scale, class BitmapFont* baseFont);
+    enum TextAlignment
+    {
+        LEFT_ALIGNED,
+        RIGHT_ALIGNED,
+        CENTER_ALIGNED
+    };
+
+    TextBox(const Vector3& bottomLeft, const Vector3& upVector, const Vector3& rightVector, float width, float height, float scale, class BitmapFont* baseFont, TextAlignment textAlignment = TextAlignment::LEFT_ALIGNED);
     ~TextBox();
     void SetFromXMLNode(const struct XMLNode& node);
     void ResetAnimation();
@@ -19,14 +26,16 @@ public:
     inline void ShowBox() { m_renderBox = true; };
     inline void HideBox() { m_renderBox = false; };
 
+    std::vector<MeshRenderer*>* m_textRenderers;
+
 private:
     void EvaluateLine(std::deque<StringEffectFragment>& currLine, std::deque<StringEffectFragment>& fragmentQueue);
     void ConstructMeshes();
+    void InitializeBorder();
 
-    std::vector<class MeshRenderer*> m_textRenderers;
     MeshRenderer* m_borderRenderer;
     //MeshRenderer* m_backgroundRenderer;
-    std::vector<StringEffectFragment> m_fragments;
+    StringEffectFragments m_fragments;
     Vector3 m_bottomLeft;
     Vector3 m_upVector;
     Vector3 m_rightVector;
@@ -35,5 +44,6 @@ private:
     float m_height;
     float m_scale;
     float m_totalTimeSinceReset;
+    TextAlignment m_alignment;
     bool m_renderBox;
 };

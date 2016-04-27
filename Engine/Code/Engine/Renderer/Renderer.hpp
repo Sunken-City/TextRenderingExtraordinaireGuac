@@ -116,8 +116,7 @@ public:
     void DeleteBuffers(int vboID);
     void BindAndBufferVBOData(int vboID, const Vertex_PCT* vertexes, int numVerts);
     void BindAndBufferVBOData(int vboID, const Vertex_PCUTB* vertexes, int numVerts);
-	void DrawVertexArrayModern(const Vertex_PCT* vertexes, int numVertexes, DrawMode drawMode /*= QUADS*/, Texture* texture /*= nullptr*/);
-	void DrawVertexArray(const Vertex_PCT* vertexes, int numVertexes, DrawMode drawMode = DrawMode::QUADS, Texture* texture = nullptr);
+	void DrawVertexArray(const Vertex_PCT* vertexes, int numVertexes, DrawMode drawMode = DrawMode::QUADS);
     void DrawVBO_PCT(unsigned int vboID, int numVerts, DrawMode drawMode = DrawMode::QUADS, Texture* texture = nullptr);
     void DrawVBO_PCUTB(unsigned int vboID, int numVerts, DrawMode drawMode = DrawMode::QUADS, Texture* texture = nullptr);
 
@@ -142,9 +141,7 @@ public:
 
     //MODERN RENDERING (AKA: ORGANIZE THESE LATER)//////////////////////////////////////////////////////////////////////////
     static void GLCheckError(const char* file, size_t line);
-    void BindMeshToVAOVertexPCT(GLuint vao, GLuint vbo, GLuint ibo, ShaderProgram* program);
     void UnbindIbo();
-    void BindMeshToVAOVertexPCUTB(GLuint vao, GLuint vbo, GLuint ibo, ShaderProgram* program);
     void RenderBufferDestroy(GLuint buffer);                                    
     GLuint GenerateVAOHandle();
     GLuint RenderBufferCreate(void* data, size_t count, size_t elementSize, GLenum usage/* = GL_STATIC_DRAW*/);
@@ -158,7 +155,8 @@ public:
 	void RotateView(float degrees, const Vector3& axis);
 	void TranslateView(const Vector3& translation);
 	void DeleteVAOHandle(GLuint m_vaoID);
-	//CONSTANTS//////////////////////////////////////////////////////////////////////////
+    void ClearDepth(float depthValue = 1.0f);
+    //CONSTANTS//////////////////////////////////////////////////////////////////////////
     static const int CIRCLE_SIDES = 50;
     static const int HEXAGON_SIDES = 6;
     static const unsigned char plainWhiteTexel[3];

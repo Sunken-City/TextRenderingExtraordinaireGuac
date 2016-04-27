@@ -29,4 +29,6 @@ public:
 private:
 	GLuint m_vaoID;
 	Matrix4x4 m_model;
+
+	MeshRenderer(const MeshRenderer&);
 };

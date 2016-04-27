@@ -64,4 +64,7 @@ public:
 	GLuint m_fragmentShaderID;
 	GLuint m_shaderProgramID;
 	std::vector<Uniform> m_uniforms;
+
+private:
+	ShaderProgram(const ShaderProgram&);
 };

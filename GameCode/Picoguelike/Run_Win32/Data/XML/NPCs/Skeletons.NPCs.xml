@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NPCBlueprints>
+
+    <NPC name="Skeleton" glyph="k" color="255,255,255">
+    <Behaviors>
+      <Wander/>
+      <Chase/>
+      <Melee/>
+    </Behaviors>
+    </NPC>
+
+</NPCBlueprints>

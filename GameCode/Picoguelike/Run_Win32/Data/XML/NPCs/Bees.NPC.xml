@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NPCBlueprints>
+  
+  <NPCBlueprint name="Worker Bee" faction="Bee" maxHealth="10" damage="2" glyph="q" color="0xAAAA00FF">
+    <Behaviors>
+      <Wander chanceToRest=".5" chanceToGoStraight=".3"/>
+    </Behaviors>
+  </NPCBlueprint>
+
+  <NPCBlueprint name="Queen Bee" faction="Bee" maxHealth="10" damage="2" glyph="Q" color="0xFFFF00FF">
+    <Behaviors>
+      <Wander chanceToRest=".4" chanceToGoStraight=".4"/>
+    </Behaviors>
+  </NPCBlueprint>
+
+</NPCBlueprints>

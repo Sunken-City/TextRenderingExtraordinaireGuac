@@ -95,6 +95,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Behaviors\Behavior.cpp" />
+    <ClCompile Include="Behaviors\ChaseBehavior.cpp" />
+    <ClCompile Include="Behaviors\Faction.cpp" />
+    <ClCompile Include="Behaviors\MeleeBehavior.cpp" />
+    <ClCompile Include="Behaviors\SplitBehavior.cpp" />
+    <ClCompile Include="Behaviors\WanderBehavior.cpp" />
+    <ClCompile Include="CombatSystem.cpp" />
     <ClCompile Include="Entities\Agent.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Entities\NPC.cpp" />
@@ -110,6 +117,7 @@
     <ClCompile Include="Map\AStar.cpp" />
     <ClCompile Include="Map\Cell.cpp" />
     <ClCompile Include="Map\Map.cpp" />
+    <ClCompile Include="MessageLog.cpp" />
     <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="TheApp.cpp" />
     <ClCompile Include="TheGame.cpp" />
@@ -120,6 +128,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Behaviors\Behavior.hpp" />
+    <ClInclude Include="Behaviors\ChaseBehavior.hpp" />
+    <ClInclude Include="Behaviors\Faction.hpp" />
+    <ClInclude Include="Behaviors\MeleeBehavior.hpp" />
+    <ClInclude Include="Behaviors\SplitBehavior.hpp" />
+    <ClInclude Include="Behaviors\WanderBehavior.hpp" />
+    <ClInclude Include="CombatSystem.hpp" />
     <ClInclude Include="Entities\Agent.hpp" />
     <ClInclude Include="Entities\Entity.hpp" />
     <ClInclude Include="Entities\NPC.hpp" />
@@ -134,14 +149,12 @@
     <ClInclude Include="Map\AStar.hpp" />
     <ClInclude Include="Map\Cell.hpp" />
     <ClInclude Include="Map\Map.hpp" />
+    <ClInclude Include="MessageLog.hpp" />
     <ClInclude Include="StateMachine.hpp" />
     <ClInclude Include="TheApp.hpp" />
     <ClInclude Include="TheGame.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="..\..\..\..\..\..\..\pass2.xml">
-      <SubType>Designer</SubType>
-    </Xml>
     <Xml Include="..\..\Run_Win32\Data\XML\Environments\Caves.Environment.xml">
       <SubType>Designer</SubType>
     </Xml>
@@ -157,9 +170,14 @@
     </Xml>
     <Xml Include="..\..\Run_Win32\Data\XML\Maps\Caves.Map.xml" />
     <Xml Include="..\..\Run_Win32\Data\XML\Maps\Pico.Map.xml" />
+    <Xml Include="..\..\Run_Win32\Data\XML\NPCs\Bees.NPC.xml" />
+    <Xml Include="..\..\Run_Win32\Data\XML\NPCs\Ogres.NPC.xml" />
+    <Xml Include="..\..\Run_Win32\Data\XML\NPCs\Skeletons.NPCs.xml" />
     <Xml Include="..\..\Run_Win32\Data\XML\NPCs\Slimes.NPC.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Run_Win32\Data\Shaders\fixedVertexFormat.frag" />
+    <None Include="..\..\Run_Win32\Data\Shaders\fixedVertexFormat.vert" />
     <None Include="..\..\Run_Win32\Data\Shaders\funkyFont.frag" />
     <None Include="..\..\Run_Win32\Data\Shaders\funkyFont.vert" />
   </ItemGroup>

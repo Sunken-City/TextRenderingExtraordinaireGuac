@@ -14,7 +14,7 @@ StringEffectFragment::StringEffectFragment(const std::string& value)
 }
 
 //-----------------------------------------------------------------------------------------------
-static void ExtractLineReturns(std::vector<StringEffectFragment>& fragments)
+static void ExtractLineReturns(StringEffectFragments& fragments)
 {
 	std::vector<StringEffectFragment> workingList;
 	std::swap(workingList, fragments);
@@ -59,7 +59,7 @@ static void ExtractLineReturns(std::vector<StringEffectFragment>& fragments)
 }
 
 //-----------------------------------------------------------------------------------------------
-std::vector<StringEffectFragment> StringEffectFragment::GetStringFragmentsFromXML(const struct XMLNode& node)
+StringEffectFragments StringEffectFragment::GetStringFragmentsFromXML(const struct XMLNode& node)
 {
 	std::string inString = XMLUtils::GetAttribute(node, "value");
 	std::vector<std::string>* fragmentValues = SplitStringOnMultipleDelimiters(inString, 2, "[[", "]]");
@@ -69,9 +69,9 @@ std::vector<StringEffectFragment> StringEffectFragment::GetStringFragmentsFromXM
 	GUARANTEE_OR_DIE((fragmentValues->size() & 1) == 1, 
 		Stringf("Input string:\n%s\ncannot be parsed.  Make sure effect text is not nested.  Close all effect text blurbs", inString.c_str()));
 	GUARANTEE_OR_DIE(effectNodeCount == effectNodeCountExpected, 
-		Stringf("Affected fragment and effect node count mismatch.  The input string:\n%s\nexpects %i effect nodes", inString.c_str(), effectNodeCountExpected));
+		Stringf("Affected fragment and effect node count mismatch.  The input string:\n%s\nexpects %i effect nodes, but only found %i", inString.c_str(), effectNodeCountExpected, effectNodeCount));
 
-	std::vector<StringEffectFragment> result;
+    StringEffectFragments result;
 	int childNodeSearchPointer = 0;
 	TextEffect defaultTextEffects = GetTextEffect(node);
 	for (size_t i = 0; i < fragmentValues->size(); i++)

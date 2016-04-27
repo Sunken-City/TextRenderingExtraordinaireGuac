@@ -11,45 +11,47 @@ typedef void (FindValidAdjacentPositionsFunction)(std::vector<PathNode*>& outVal
 //-----------------------------------------------------------------------------------
 struct PathNode
 {
-	//CONSTRUCTORS//////////////////////////////////////////////////////////////////////////
-	//Z gets automatically set to G + H
-	PathNode(const MapPosition& position, PathNode* parent, float g, float h);
+    //CONSTRUCTORS//////////////////////////////////////////////////////////////////////////
+    //Z gets automatically set to G + H
+    PathNode(const MapPosition& position, PathNode* parent, float g, float h);
 
-	//Z gets automatically set to G + H
-	void UpdateVariables(PathNode* parent, float g, float h);
+    //Z gets automatically set to G + H
+    void UpdateVariables(PathNode* parent, float g, float h);
 
-	//MEMBER VARIABLES//////////////////////////////////////////////////////////////////////////
-	MapPosition position;
-	PathNode* parent;
-	float g;
-	float h;
-	float f;
+    //MEMBER VARIABLES//////////////////////////////////////////////////////////////////////////
+    MapPosition position;
+    PathNode* parent;
+    float g;
+    float h;
+    float f;
 };
 
 //-----------------------------------------------------------------------------------
 class Path
 {
 public:
-	//CONSTRUCTORS//////////////////////////////////////////////////////////////////////////
-	Path(FindValidAdjacentPositionsFunction* FindValidAdjacentPositions);
+    //CONSTRUCTORS//////////////////////////////////////////////////////////////////////////
+    Path(FindValidAdjacentPositionsFunction* FindValidAdjacentPositions);
 
-	//FUNCTIONS//////////////////////////////////////////////////////////////////////////
-	void InitializePathForStep(const MapPosition& start, const MapPosition& goal);
-	bool FindPathStep();
-	void Render() const;
+    //FUNCTIONS//////////////////////////////////////////////////////////////////////////
+    void InitializePathForStep(const MapPosition& start, const MapPosition& goal);
+    bool FindPathStep();
+    bool FindPath(const MapPosition& start, const MapPosition& goal);
+    void ClearPath();
+    void Render() const;
 
-	//MEMBER VARIABLES//////////////////////////////////////////////////////////////////////////
-	std::vector<PathNode*> m_openList;
-	std::vector<PathNode*> m_closedList;
-	std::vector<PathNode*> m_resultantPath;
-	MapPosition m_currentGoal;
-	bool m_hasBegun;
-	FindValidAdjacentPositionsFunction* FindValidAdjacentPositions;
+    //MEMBER VARIABLES//////////////////////////////////////////////////////////////////////////
+    std::vector<PathNode*> m_openList;
+    std::vector<PathNode*> m_closedList;
+    std::vector<PathNode*> m_resultantPath;
+    MapPosition m_currentGoal;
+    bool m_hasBegun;
+    FindValidAdjacentPositionsFunction* FindValidAdjacentPositions;
 
 private:
-	//HELPER FUNCTIONS//////////////////////////////////////////////////////////////////////////
-	PathNode* FindLowestFNodeOnOpenListAndRemoveIt();
-	PathNode* FindOpenNodeWithPosInOpenList(const MapPosition& position);
-	void RecursivelyBuildPathToStartFromNode(PathNode* activeNode);
-	bool IsPositionOnClosedList(const MapPosition& position);
+    //HELPER FUNCTIONS//////////////////////////////////////////////////////////////////////////
+    PathNode* FindLowestFNodeOnOpenListAndRemoveIt();
+    PathNode* FindOpenNodeWithPosInOpenList(const MapPosition& position);
+    void RecursivelyBuildPathToStartFromNode(PathNode* activeNode);
+    bool IsPositionOnClosedList(const MapPosition& position);
 };

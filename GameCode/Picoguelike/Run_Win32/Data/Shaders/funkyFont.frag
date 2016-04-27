@@ -16,26 +16,16 @@ out vec4 outColor;
 
 void main()
 {
-	if (gTime < passNormalizedStringPosition.x)
-	{
-		outColor = vec4(0.f);
-		return;
-	}
-	vec4 diffuse = texture(gDiffuseTexture, passUV0);
-	//if (gTime < passNormalizedStringPosition.x * .1f)
-	{
-		//outColor = vec4(0.f);
-	}
-	//else if (gRainbow == 1)
-	{
-		float wavyInterpolationValue = (sin(passNormalizedGlyphPosition.y + passNormalizedFragPosition + gTime) + 1.0f) / 2.0f; //Diagonal two-color rainbow
-		float normalInterpolationValue = (sin(passNormalizedFragPosition + gTime) + 1.0f) / 2.0f; //Normal two-color rainbow
-		float wiggleInterpolationValue = (sin(passNormalizedFragPosition + sin(passNormalizedGlyphPosition.y + (gTime * 10.0f)) + gTime) + 1.0f) / 2.0f; //Super wiggle
-		//outColor = mix(vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(0.0f, 1.0f, 0.0f, 1.0f), interpolationValue) * diffuse; //mix(gColor1, gColor2, passNormalizedStringPosition.x);
-		outColor = mix(gColor1, gColor2, wiggleInterpolationValue) * diffuse;
-	}
-	//else
-	{
-		//outColor = diffuse;
-	}
+    vec4 diffuse = texture(gDiffuseTexture, passUV0);
+
+    if (gTime < passNormalizedStringPosition.x)
+    {
+        discard;
+    }
+
+    float wavyInterpolationValue = (sin(passNormalizedGlyphPosition.y + passNormalizedFragPosition + gTime) + 1.0f) / 2.0f; //Diagonal two-color rainbow
+    float normalInterpolationValue = (sin(passNormalizedFragPosition + gTime) + 1.0f) / 2.0f; //Normal two-color rainbow
+    float wiggleInterpolationValue = (sin(passNormalizedFragPosition + sin(passNormalizedGlyphPosition.y + (gTime * 10.0f)) + gTime) + 1.0f) / 2.0f; //Super wiggle
+    //outColor = mix(vec4(1.0f, 0.0f, 0.0f, 1.0f), vec4(0.0f, 1.0f, 0.0f, 1.0f), interpolationValue) * diffuse; //mix(gColor1, gColor2, passNormalizedStringPosition.x);
+    outColor = mix(gColor1, gColor2, wiggleInterpolationValue) * diffuse;
 }

@@ -5,12 +5,14 @@
 class Mesh;
 class Matrix4x4;
 class Skeleton;
+class AnimationMotion;
 
 class SceneImport
 {
 public:
 	std::vector<MeshBuilder> meshes;
 	std::vector<Skeleton*> skeletons;
+	std::vector<AnimationMotion*> motions;
 };
 
 //STANDALONE FUNCTIONS//////////////////////////////////////////////////////////////////////////

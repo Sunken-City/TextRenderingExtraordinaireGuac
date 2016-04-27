@@ -30,8 +30,11 @@
     <Filter Include="Data\NPCs">
       <UniqueIdentifier>{64dbe481-a38c-4053-93bb-143090f7d15e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Data\Shaders">
-      <UniqueIdentifier>{29770763-3f56-4cd3-b3cc-b0b1a0134d10}</UniqueIdentifier>
+    <Filter Include="Code\Behaviors">
+      <UniqueIdentifier>{3a2be9cd-711e-4d03-9ef0-e3d4cf1bd0d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{c0f48970-0978-49e4-8197-4ec82d3869ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +92,30 @@
     <ClCompile Include="Entities\NPCFactory.cpp">
       <Filter>Code\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Behaviors\Behavior.cpp">
+      <Filter>Code\Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="Behaviors\WanderBehavior.cpp">
+      <Filter>Code\Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="Behaviors\Faction.cpp">
+      <Filter>Code\Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="Behaviors\ChaseBehavior.cpp">
+      <Filter>Code\Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="Behaviors\SplitBehavior.cpp">
+      <Filter>Code\Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageLog.cpp">
+      <Filter>Code</Filter>
+    </ClCompile>
+    <ClCompile Include="CombatSystem.cpp">
+      <Filter>Code</Filter>
+    </ClCompile>
+    <ClCompile Include="Behaviors\MeleeBehavior.cpp">
+      <Filter>Code\Behaviors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TheGame.hpp">
@@ -142,6 +169,30 @@
     <ClInclude Include="Entities\NPCFactory.hpp">
       <Filter>Code\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Behaviors\Behavior.hpp">
+      <Filter>Code\Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviors\WanderBehavior.hpp">
+      <Filter>Code\Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviors\Faction.hpp">
+      <Filter>Code\Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviors\ChaseBehavior.hpp">
+      <Filter>Code\Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviors\SplitBehavior.hpp">
+      <Filter>Code\Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageLog.hpp">
+      <Filter>Code</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatSystem.hpp">
+      <Filter>Code</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviors\MeleeBehavior.hpp">
+      <Filter>Code\Behaviors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\Run_Win32\Data\XML\Environments\FromDataPico.Environment.xml">
@@ -168,16 +219,28 @@
     <Xml Include="..\..\Run_Win32\Data\XML\NPCs\Slimes.NPC.xml">
       <Filter>Data\NPCs</Filter>
     </Xml>
-    <Xml Include="..\..\..\..\..\..\..\pass2.xml">
-      <Filter>Data</Filter>
+    <Xml Include="..\..\Run_Win32\Data\XML\NPCs\Bees.NPC.xml">
+      <Filter>Data\NPCs</Filter>
+    </Xml>
+    <Xml Include="..\..\Run_Win32\Data\XML\NPCs\Skeletons.NPCs.xml">
+      <Filter>Data\NPCs</Filter>
+    </Xml>
+    <Xml Include="..\..\Run_Win32\Data\XML\NPCs\Ogres.NPC.xml">
+      <Filter>Data\NPCs</Filter>
     </Xml>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Run_Win32\Data\Shaders\funkyFont.vert">
-      <Filter>Data\Shaders</Filter>
+    <None Include="..\..\Run_Win32\Data\Shaders\fixedVertexFormat.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Run_Win32\Data\Shaders\fixedVertexFormat.vert">
+      <Filter>Shaders</Filter>
     </None>
     <None Include="..\..\Run_Win32\Data\Shaders\funkyFont.frag">
-      <Filter>Data\Shaders</Filter>
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Run_Win32\Data\Shaders\funkyFont.vert">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

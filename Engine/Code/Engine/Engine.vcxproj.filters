@@ -188,6 +188,10 @@
     <ClCompile Include="TextRendering\TextBox.cpp">
       <Filter>Engine\TextRendering</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\AnimationMotion.cpp" />
+    <ClCompile Include="Math\Vector4Int.cpp">
+      <Filter>Engine\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\Vector2.hpp">
@@ -342,6 +346,10 @@
     </ClInclude>
     <ClInclude Include="TextRendering\TextBox.hpp">
       <Filter>Engine\TextRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\AnimationMotion.hpp" />
+    <ClInclude Include="Math\Vector4Int.hpp">
+      <Filter>Engine\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

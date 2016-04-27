@@ -357,52 +357,8 @@ void Renderer::BindAndBufferVBOData(int vboID, const Vertex_PCUTB* vertexes, int
 }
 
 //-----------------------------------------------------------------------------------
-void Renderer::DrawVertexArrayModern(const Vertex_PCT* vertexes, int numVertexes, Renderer::DrawMode drawMode /*= QUADS*/, Texture* texture /*= nullptr*/)
+void Renderer::DrawVertexArray(const Vertex_PCT* vertexes, int numVertexes, DrawMode drawMode /*= DrawMode::QUADS*/)
 {
-	MeshBuilder builder;
-	builder.Begin();
-	for (int i = 0; i < numVertexes; ++i)
-	{
-		builder.SetColor(vertexes[i].color);
-		builder.SetUV(vertexes[i].texCoords);
-		builder.SetTBN(Vector3::ZERO, Vector3::ZERO, Vector3::ZERO);
-		builder.AddVertex(vertexes[i].pos);
-		builder.AddIndex(i);
-	}
-	builder.End();
-
-	Mesh* mesh = new Mesh();
-	builder.CopyToMesh(mesh, &Vertex_PCUTB::Copy, sizeof(Vertex_PCUTB), &Vertex_PCUTB::BindMeshToVAO);
-	mesh->m_drawMode = drawMode;
-	MeshRenderer thingToRender = MeshRenderer(mesh, m_defaultMaterial);
-	m_defaultMaterial->SetMatrices(Matrix4x4::IDENTITY, m_viewStack.GetTop(), m_projStack.GetTop());
-	GL_CHECK_ERROR();
-	thingToRender.Render();
-	delete mesh;
-}
-
-//-----------------------------------------------------------------------------------
-void Renderer::DrawVertexArray(const Vertex_PCT* vertexes, int numVertexes, DrawMode drawMode /*= QUADS*/, Texture* texture /*= nullptr*/)
-{
-// 	if (!texture)
-// 	{
-// 		texture = m_defaultTexture;
-// 	}
-// 	BindTexture(*texture);
-// 	glEnableClientState(GL_VERTEX_ARRAY);
-// 	glEnableClientState(GL_COLOR_ARRAY);
-// 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-// 	
-// 	glVertexPointer(3, GL_FLOAT, sizeof(Vertex_PCT), &vertexes[0].pos);
-// 	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex_PCT), &vertexes[0].color);
-// 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex_PCT), &vertexes[0].texCoords);
-// 
-// 	glDrawArrays(GetDrawMode(drawMode), 0, numVertexes);
-// 
-// 	glDisableClientState(GL_VERTEX_ARRAY);
-// 	glDisableClientState(GL_COLOR_ARRAY);
-// 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-// 	UnbindTexture();
 	if (numVertexes == 0)
 	{
 		return;
@@ -422,10 +378,10 @@ void Renderer::DrawVertexArray(const Vertex_PCT* vertexes, int numVertexes, Draw
 	Mesh* mesh = new Mesh();
 	builder.CopyToMesh(mesh, &Vertex_PCUTB::Copy, sizeof(Vertex_PCUTB), &Vertex_PCUTB::BindMeshToVAO);
 	mesh->m_drawMode = drawMode;
-	MeshRenderer thingToRender = MeshRenderer(mesh, m_defaultMaterial);
+	MeshRenderer* thingToRender = new MeshRenderer(mesh, m_defaultMaterial);
 	m_defaultMaterial->SetMatrices(Matrix4x4::IDENTITY, m_viewStack.GetTop(), m_projStack.GetTop());
 	GL_CHECK_ERROR();
-	thingToRender.Render();
+	thingToRender->Render();
 	delete mesh;
 }
 
@@ -531,11 +487,12 @@ void Renderer::DrawText2D
 	Mesh* mesh = new Mesh();
 	builder.CopyToMesh(mesh, &Vertex_PCUTB::Copy, sizeof(Vertex_PCUTB), &Vertex_PCUTB::BindMeshToVAO);
 	mesh->m_drawMode = DrawMode::TRIANGLES;
-	MeshRenderer thingToRender = MeshRenderer(mesh, font->GetMaterial());
+	MeshRenderer* thingToRender = new MeshRenderer(mesh, font->GetMaterial());
 	m_defaultMaterial->SetMatrices(Matrix4x4::IDENTITY, m_viewStack.GetTop(), m_projStack.GetTop());
 	GL_CHECK_ERROR();
-	thingToRender.Render();
+	thingToRender->Render();
 	delete mesh;
+	delete thingToRender;
 }
 
 //-----------------------------------------------------------------------------------
@@ -591,11 +548,12 @@ void Renderer::DrawText2D(const Vector2& position, const std::string& asciiText,
 	Mesh* mesh = new Mesh();
 	builder.CopyToMesh(mesh, &Vertex_PCUTB::Copy, sizeof(Vertex_PCUTB), &Vertex_PCUTB::BindMeshToVAO);
 	mesh->m_drawMode = DrawMode::TRIANGLES;
-	MeshRenderer thingToRender = MeshRenderer(mesh, font->GetMaterial());
+	MeshRenderer* thingToRender = new MeshRenderer(mesh, font->GetMaterial());
 	m_defaultMaterial->SetMatrices(Matrix4x4::IDENTITY, m_viewStack.GetTop(), m_projStack.GetTop());
 	GL_CHECK_ERROR();
-	thingToRender.Render();
+	thingToRender->Render();
 	delete mesh;
+	delete thingToRender;
 }
 
 //-----------------------------------------------------------------------------------
@@ -638,43 +596,15 @@ void Renderer::DeleteVAOHandle(GLuint vaoID)
 }
 
 //-----------------------------------------------------------------------------------
-void Renderer::BindMeshToVAOVertexPCT(GLuint vao, GLuint vbo, GLuint ibo, ShaderProgram* program)
+void Renderer::ClearDepth(float depthValue)
 {
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	program->ShaderProgramBindProperty("inPosition", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_PCT), offsetof(Vertex_PCT, pos));
-	program->ShaderProgramBindProperty("inColor", 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex_PCT), offsetof(Vertex_PCT, color));
-	program->ShaderProgramBindProperty("inUV0", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex_PCT), offsetof(Vertex_PCT, texCoords));
-	glBindBuffer(GL_ARRAY_BUFFER, NULL);
-	if (ibo != NULL)
-	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	}
-	glBindVertexArray(NULL);
+    glClearDepth(depthValue);
 }
 
 //-----------------------------------------------------------------------------------
 void Renderer::UnbindIbo()
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, NULL);
-}
-
-//-----------------------------------------------------------------------------------
-void Renderer::BindMeshToVAOVertexPCUTB(GLuint vao, GLuint vbo, GLuint ibo, ShaderProgram* program)
-{
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	program->ShaderProgramBindProperty("inPosition", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_PCUTB), offsetof(Vertex_PCUTB, pos));
-	program->ShaderProgramBindProperty("inColor", 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex_PCUTB), offsetof(Vertex_PCUTB, color));
-	program->ShaderProgramBindProperty("inUV0", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex_PCUTB), offsetof(Vertex_PCUTB, texCoords));
-	program->ShaderProgramBindProperty("inTangent", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_PCUTB), offsetof(Vertex_PCUTB, tangent));
-	program->ShaderProgramBindProperty("inBitangent", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_PCUTB), offsetof(Vertex_PCUTB, bitangent));
-	glBindBuffer(GL_ARRAY_BUFFER, NULL);
-	if (ibo != NULL)
-	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	}
-	glBindVertexArray(NULL);
 }
 
 //-----------------------------------------------------------------------------------
@@ -986,7 +916,7 @@ void Renderer::DrawTexturedAABB(const AABB2& bounds, const Vector2& texCoordMins
 	vertex.pos = Vector3(bounds.mins.x, bounds.maxs.y, 0.0f);
 	vertex.texCoords = Vector2(texCoordMins.x, texCoordMaxs.y);
 	vertexes[3] = vertex;
-	Renderer::instance->DrawVertexArray(vertexes, 4, DrawMode::QUADS, texture);
+	Renderer::instance->DrawVertexArray(vertexes, 4, DrawMode::QUADS);
 }
 
 //-----------------------------------------------------------------------------------
@@ -1007,7 +937,7 @@ void Renderer::DrawTexturedFace(const Face& face, const Vector2& texCoordMins, c
 	vertex.pos = face.verts[3];
 	vertex.texCoords = Vector2(texCoordMins.x, texCoordMaxs.y);
 	vertexes[3] = vertex;
-	Renderer::instance->DrawVertexArray(vertexes, 4, DrawMode::QUADS, texture);
+	Renderer::instance->DrawVertexArray(vertexes, 4, DrawMode::QUADS);
 }
 
 //-----------------------------------------------------------------------------------

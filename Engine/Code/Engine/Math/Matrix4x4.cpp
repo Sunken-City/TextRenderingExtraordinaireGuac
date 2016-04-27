@@ -430,6 +430,11 @@ void Matrix4x4::SetTranslation(const Vector3& offset)
 	data[11] = offset.z;
 }
 
+Vector3 Matrix4x4::GetTranslation() const
+{
+	return Vector3(data[3], data[7], data[11]);
+}
+
 //-----------------------------------------------------------------------------------
 Vector3 Matrix4x4::MatrixGetForward(Matrix4x4* matrix)
 {
@@ -442,6 +447,54 @@ void Matrix4x4::MatrixSetForward(Matrix4x4* matrix, Vector3 forward)
 	matrix->data[9] = forward.x;
 	matrix->data[10] = forward.y;
 	matrix->data[11] = forward.z;
+}
+
+//-----------------------------------------------------------------------------------
+Matrix4x4 Matrix4x4::MatrixFromBasis(const Vector3& right, const Vector3& up, const Vector3& forward, const Vector3& t)
+{
+	Matrix4x4 mat = Matrix4x4::IDENTITY;
+	mat.data[0] = right.x;
+	mat.data[4] = right.y;
+	mat.data[8] = right.z;
+
+	mat.data[1] = up.x;
+	mat.data[5] = up.y;
+	mat.data[9] = up.z;
+
+	mat.data[2] = forward.x;
+	mat.data[6] = forward.y;
+	mat.data[10] = forward.z;
+
+	mat.data[3] = t.x;
+	mat.data[7] = t.y;
+	mat.data[11] = t.z;
+	return mat;
+}
+
+//-----------------------------------------------------------------------------------
+Matrix4x4 Matrix4x4::MatrixLerp(const Matrix4x4& a, const Matrix4x4& b, const float time)
+{
+	Vector3 r0, u0, f0, t0;
+	Matrix4x4::GetBasis(a, r0, u0, f0, t0);
+
+	Vector3 r1, u1, f1, t1;
+	Matrix4x4::GetBasis(b, r1, u1, f1, t1);
+
+	Vector3 r, u, f, t;
+	r = MathUtils::Lerp(time, r0, r1);
+	u = MathUtils::Lerp(time, u0, u1);
+	f = MathUtils::Lerp(time, f0, f1);
+	t = MathUtils::Lerp(time, t0, t1);
+
+	return MatrixFromBasis(r, u, f, t);
+}
+
+void Matrix4x4::GetBasis(const Matrix4x4& a, Vector3& b1, Vector3& b2, Vector3& b3, Vector3& b4)
+{
+	b1 = Vector3(a.data[0],  a.data[4],  a.data[8]);
+	b2 = Vector3(a.data[1],  a.data[5],  a.data[9]);
+	b3 = Vector3(a.data[2],  a.data[6],  a.data[10]);
+	b4 = Vector3(a.data[3], a.data[7], a.data[11]);
 }
 
 void Matrix4x4::Rotate(float degrees, const Vector3& axis)

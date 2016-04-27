@@ -40,8 +40,12 @@ public:
 
 	//MEMBER FUNCTIONS//////////////////////////////////////////////////////////////////////////
 	void SetTranslation(const Vector3& offset);
+	Vector3 GetTranslation() const;
 	static Vector3 MatrixGetForward(Matrix4x4* matrix);
 	static void MatrixSetForward(Matrix4x4* matrix, Vector3 forward);
+	static Matrix4x4 MatrixFromBasis(const Vector3& right, const Vector3& up, const Vector3& forward, const Vector3& t);
+	static Matrix4x4 MatrixLerp(const Matrix4x4& a, const Matrix4x4& b, const float t);
+	static void GetBasis(const Matrix4x4& a, Vector3& b1, Vector3& b2, Vector3& b3, Vector3& b4);
 	void Rotate(float angle, const Vector3& Axis);
 	//CONSTANTS//////////////////////////////////////////////////////////////////////////
 	static const Matrix4x4 IDENTITY;
@@ -53,6 +57,22 @@ public:
 		Vector4 column[4];
 	};
 };
+
+//----------------------------------------------------------------------
+inline Matrix4x4 operator*(const Matrix4x4& lhs, const Matrix4x4& rhs)
+{
+	float values[16];
+	Vector4 column, row;
+	for (int r = 0; r < 4; ++r) {
+		Matrix4x4::MatrixGetRow(&lhs, r, &row);
+		for (int c = 0; c < 4; ++c) {
+			float v = Vector4::Dot(row, rhs.column[c]);
+			values[(c * 4) + r] = v;
+		}
+	}
+
+	return Matrix4x4(values);
+}
 
 //----------------------------------------------------------------------
 inline Vector3 operator*(const Vector3& lhs, const Matrix4x4& rhs)

@@ -50,6 +50,7 @@ public:
 	static float SmoothStep(float x);
 	static float Lerp(float fraction, float initialValue, float endValue);
 	static Vector2 Lerp(float fraction, const Vector2& initialValue, const Vector2& endValue);
+	static Vector3 Lerp(float fraction, const Vector3& initialValue, const Vector3& endValue);
 
 
 	//CONSTANTS//////////////////////////////////////////////////////////////////////////

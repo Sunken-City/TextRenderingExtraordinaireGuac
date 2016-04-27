@@ -6,6 +6,7 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include "Engine/Renderer/OpenGLExtensions.hpp"
+#include "Engine/Renderer/Renderer.hpp"
 
 void Vertex_PCUTB::Copy(const Vertex_Master& source, byte* destination)
 {
@@ -43,18 +44,24 @@ void Vertex_PCT::BindMeshToVAO(GLuint vao, GLuint vbo, GLuint ibo, ShaderProgram
 void Vertex_PCUTB::BindMeshToVAO(GLuint vao, GLuint vbo, GLuint ibo, ShaderProgram* program)
 {
 	glBindVertexArray(vao);
+	GL_CHECK_ERROR();
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	GL_CHECK_ERROR();
 	program->ShaderProgramBindProperty("inPosition", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_PCUTB), offsetof(Vertex_PCUTB, pos));
 	program->ShaderProgramBindProperty("inColor", 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(Vertex_PCUTB), offsetof(Vertex_PCUTB, color));
 	program->ShaderProgramBindProperty("inUV0", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex_PCUTB), offsetof(Vertex_PCUTB, texCoords));
 	program->ShaderProgramBindProperty("inTangent", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_PCUTB), offsetof(Vertex_PCUTB, tangent));
 	program->ShaderProgramBindProperty("inBitangent", 3, GL_FLOAT, GL_FALSE, sizeof(Vertex_PCUTB), offsetof(Vertex_PCUTB, bitangent));
+	GL_CHECK_ERROR();
 	glBindBuffer(GL_ARRAY_BUFFER, NULL);
+	GL_CHECK_ERROR();
 	if (ibo != NULL)
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		GL_CHECK_ERROR();
 	}
 	glBindVertexArray(NULL);
+	GL_CHECK_ERROR();
 }
 
 void Vertex_TextPCT::Copy(const Vertex_Master& source, byte* destination)
@@ -65,7 +72,6 @@ void Vertex_TextPCT::Copy(const Vertex_Master& source, byte* destination)
 	textPCT->texCoords = source.uv0;
 	textPCT->normalizedGlyphPosition = source.normalizedGlyphPosition;
 	textPCT->normalizedStringPosition = source.normalizedStringPosition;
-	textPCT->normalizedFragPosition = source.normalizedFragPosition;
 }
 
 void Vertex_TextPCT::BindMeshToVAO(GLuint vao, GLuint vbo, GLuint ibo, ShaderProgram* program)
@@ -77,7 +83,6 @@ void Vertex_TextPCT::BindMeshToVAO(GLuint vao, GLuint vbo, GLuint ibo, ShaderPro
 	program->ShaderProgramBindProperty("inUV0", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex_TextPCT), offsetof(Vertex_TextPCT, texCoords));
 	program->ShaderProgramBindProperty("inNormalizedGlyphPosition", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex_TextPCT), offsetof(Vertex_TextPCT, normalizedGlyphPosition));
 	program->ShaderProgramBindProperty("inNormalizedStringPosition", 2, GL_FLOAT, GL_FALSE, sizeof(Vertex_TextPCT), offsetof(Vertex_TextPCT, normalizedStringPosition));
-	program->ShaderProgramBindProperty("inNormalizedFragPosition", 1, GL_FLOAT, GL_FALSE, sizeof(Vertex_TextPCT), offsetof(Vertex_TextPCT, normalizedFragPosition));
 	glBindBuffer(GL_ARRAY_BUFFER, NULL);
 	if (ibo != NULL)
 	{

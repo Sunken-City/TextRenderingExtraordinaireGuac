@@ -1,16 +1,16 @@
 #pragma once
-
+#include "Engine/TextRendering/TextEffect.hpp"
 #include <string>
 #include <vector>
-#include "Engine/TextRendering/TextEffect.hpp"
 
+typedef std::vector<class StringEffectFragment> StringEffectFragments;
 
 //-----------------------------------------------------------------------------------------------
 class StringEffectFragment
 {
 public:
 	StringEffectFragment(const std::string& value);
-	static std::vector<StringEffectFragment> GetStringFragmentsFromXML(const struct XMLNode& node);
+	static StringEffectFragments GetStringFragmentsFromXML(const struct XMLNode& node);
 
 private:
 	static TextEffect GetTextEffect(const struct XMLNode& node);

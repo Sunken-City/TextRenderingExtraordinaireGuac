@@ -10,8 +10,8 @@ out vec4 outColor;
 
 void main(void)
 {
-  vec4 diffuse = texture(gDiffuseTexture, passUV0);
-  //Debug line, output UV's as colors.
-  //outColor = vec4(passUV0, 0.0f, 1.0f);
-  outColor = passColor * diffuse;
+    vec4 diffuse = texture(gDiffuseTexture, passUV0);
+    //Debug line, output UV's as colors.
+    //outColor = vec4(passUV0, 0.0f, 1.0f);
+    outColor = passColor * diffuse;
 }

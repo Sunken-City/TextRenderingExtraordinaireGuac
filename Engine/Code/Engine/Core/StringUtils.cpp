@@ -69,7 +69,7 @@ std::vector<std::string>* SplitString(const std::string& inputString, const std:
 }
 
 //-----------------------------------------------------------------------------------------------
-std::vector<std::string>* SplitString(const std::string& inputString, int numDelimiters, ...)
+std::vector<std::string>* SplitStringOnMultipleDelimiters(const std::string& inputString, int numDelimiters, ...)
 {
 	va_list delimiterList;
 	va_start(delimiterList, numDelimiters);
